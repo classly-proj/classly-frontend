@@ -16,25 +16,7 @@ const map = new mapboxgl.Map({
 
 const start = [-70.930745,43.152942];
 
-const bd_PAUL = 
-[
-  { // GROUND FLOOR
-    'type': 'FeatureCollection',
-    'features': [
-      { 'type': 'Feature', 'properties': { 'id': 'FL_0_Ent_1' }, 'geometry': { 'type': 'Point', 'coordinates': [-70.92921445683932, 43.136601522479374] } },
-      { 'type': 'Feature', 'properties': { 'id': 'FL_0_Ent_2' }, 'geometry': { 'type': 'Point', 'coordinates': [-70.92905657465109, 43.13661551234659] } },
-      { 'type': 'Feature', 'properties': { 'id': 'FL_0_Ent_2' }, 'geometry': { 'type': 'Point', 'coordinates': [-70.92905657465109, 43.13661551234659] } },
-    ]
-  },
-  { // FLOOR 1
-    'type': 'FeatureCollection',
-    'features': [
-      { 'type': 'Feature', 'properties': { 'id': 'FL_1_Ent_1' }, 'geometry': { 'type': 'Point', 'coordinates': [-70.928859, 43.136652] } },
-    ]
-  }
-];
-
-async function getRoute(end) {
+async function loadRoute(end) {
   const targetUrl = `https://api.mapbox.com/directions/v5/mapbox/driving/${start[0]}%2C${start[1]}%3B${end[0]}%2C${end[1]}?alternatives=true&geometries=geojson&language=en&overview=full&steps=true&access_token=pk.eyJ1IjoiZHNjYXJiMjEiLCJhIjoiY2x0cnR1Y254MGkxdzJqbnZ2bHowcHN1MiJ9.TSvhTRQ2X-G0M-mzagneOw`;
 
   const query = await fetch(targetUrl);
@@ -73,16 +55,42 @@ async function getRoute(end) {
   }
 }
 
-function setupBuildingLayer() {
-  map.addSource('buildings', {
+function loadBuildings(buildings) {
+  const allFeatures = [];
+  for (const floor in buildings.paul) {
+    if (buildings.paul.hasOwnProperty(floor)) {
+      buildings.paul[floor].forEach((entry) => {
+        allFeatures.push({
+          type: 'Feature',
+          properties: {
+            floor: floor
+          },
+          geometry: {
+            type: 'Point',
+            coordinates: entry.coordinates
+          }
+        });
+      });
+    }
+  }
+
+  // Combine all features into a single FeatureCollection
+  const combinedData = {
+    type: 'FeatureCollection',
+    features: allFeatures
+  };
+
+  // Add the combined GeoJSON source to the map
+  map.addSource('combined_buildings', {
     type: 'geojson',
-    data: buildings
+    data: combinedData
   });
 
+  // Add the layer using the combined source
   map.addLayer({
     id: 'buildings',
     type: 'circle',
-    source: 'buildings',
+    source: 'combined_buildings',
     paint: {
       'circle-radius': 8,
       'circle-color': '#ff8c00'
@@ -91,7 +99,7 @@ function setupBuildingLayer() {
 
   map.on('click', 'buildings', function (e) {
     const coordinates = e.features[0].geometry.coordinates;
-    getRoute(coordinates);
+    loadRoute(coordinates);
   });
 
   map.on('mouseenter', 'buildings', function () {
@@ -129,5 +137,10 @@ map.on('load', () => {
     }
   });
 
-  setupBuildingLayer();
+  fetch('./data/buildings.json') 
+      .then(response => response.json())
+      .then(buildings => {
+        loadBuildings(buildings);
+      })
+      .catch(error => console.error('Error loading the JSON file:', error));
 });
