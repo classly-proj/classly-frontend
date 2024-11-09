@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Custom Floor Plan Map with OpenLayers</title>
+  <title>OPENLAYER MAP</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.css" type="text/css">
   <style>
     #map {
@@ -17,14 +17,13 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.js"></script>
   <script>
-    // Define the extent of the floor plan image in map coordinates
-    const imageExtent = [0, 0, 1000, 647]; // Adjust these values to fit your image size
+    let pathLayer = null;
+    const imageExtent = [0, 0, 1000, 647]; 
 
-    // Create an ImageStatic layer with the JPEG floor plan
     const floorPlanLayer = new ol.layer.Image({
       source: new ol.source.ImageStatic({
-        url: './img/PaulCollegeGround.jpg', // Replace with the path to your JPEG file
-        projection: 'EPSG:4326',
+        url: './img/PaulCollegeGround.jpg',
+        // projection: 'EPSG:4326',
         imageExtent: imageExtent,
       }),
     });
@@ -34,12 +33,161 @@
       target: 'map',
       layers: [floorPlanLayer],
       view: new ol.View({
-        projection: 'EPSG:4326',
-        center: ol.extent.getCenter(imageExtent), // Center the view on the image
-        zoom: 2, // Adjust the zoom level to fit your needs
-        maxZoom: 5,
+        // projection: 'EPSG:4326',
+        center: ol.extent.getCenter(imageExtent), 
+        zoom: 10, // Adjust the zoom level to fit your needs
       }),
     });
+
+    // Define waypoints (adjust coordinates based on image)
+    const waypoints = {
+      entrance: [180, 450],
+      waypnt1: [723, 450],
+      stairs1: [586, 450],
+      stairs: [586, 500],
+      elevator1: [680, 450],
+      elevator: [680, 480],
+
+      intera: [287, 450],
+      classa: [287, 500],
+
+      interb: [544, 450],
+      classb: [544, 500],
+
+      interc: [723, 460],
+      classc: [723, 600],
+
+      interd: [723, 243],
+      classd: [760, 243],
+
+      intere: [723, 190],
+      classe: [760, 190],
+
+      interf: [723, 85],
+      classf: [760, 85],
+
+      classg: [800, 450],
+    };
+
+    // Define paths as an adjacency list
+    const paths = {
+      entrance: ['intera'],
+      waypnt1: ['interd', 'interc', 'elevator1', 'classg'],
+      elevator1: ['waypnt1', 'stairs1', 'elevator'],
+      elevator: ['elevator1'],
+      stairs1: ['elevator1', 'interb', 'stairs'],
+      stairs: ['stairs1'],
+
+      intera: ['entrance', 'classa', 'interb'],
+      classa: ['intera'],
+
+      interb: ['intera', 'stairs1', 'classb'],
+      classb: ['interb'],
+
+      interc: ['waypnt1', 'classc'],
+      classc: ['interc'],
+      
+      interd: ['intere', 'waypnt1', 'classd'],
+      classd: ['interd'],
+
+      intere: ['interf', 'interd', 'classe'],
+      classe: ['intere'],
+
+      interf: ['intere', 'classf'],
+      classf: ['interf'],
+
+      classg: ['waypnt1']
+
+    };
+
+    map.getView().fit(imageExtent, { size: map.getSize() });
+
+    // Path-finding function (simple breadth-first search for demonstration)
+    function findPath(start, end) {
+        const queue = [[start]];
+        const visited = new Set();
+        visited.add(start);
+
+        while (queue.length > 0) {
+            const path = queue.shift();
+            const node = path[path.length - 1];
+
+            if (node === end) return path;
+
+            for (const neighbor of paths[node] || []) {
+            if (!visited.has(neighbor)) {
+                visited.add(neighbor);
+                queue.push([...path, neighbor]);
+            }
+            }
+        }
+        return null;
+    }
+
+
+    function drawPath(path) {
+    if (pathLayer) {
+        map.removeLayer(pathLayer);
+    }
+
+    const coordinates = path.map(point => waypoints[point]);
+    const line = new ol.geom.LineString(coordinates);
+    const routeFeature = new ol.Feature({
+        geometry: line,
+    });
+
+    routeFeature.setStyle(new ol.style.Style({
+        stroke: new ol.style.Stroke({
+            color: '#0000ff',
+            width: 3,
+            lineDash: [10, 10] 
+        }),
+    }));
+
+    const vectorSource = new ol.source.Vector({
+        features: [routeFeature],
+    });
+
+    // Add a single arrow at the end of the path
+    if (coordinates.length > 1) {
+        const start = coordinates[coordinates.length - 2];
+        const end = coordinates[coordinates.length - 1];
+        const dx = end[0] - start[0];
+        const dy = end[1] - start[1];
+        const rotation = Math.atan2(dy, dx) - Math.PI / 2;
+
+        const arrowFeature = new ol.Feature({
+            geometry: new ol.geom.Point(end),
+        });
+
+        arrowFeature.setStyle(new ol.style.Style({
+            image: new ol.style.Icon({
+                src: 'data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="blue" d="M12 2l9 18H3L12 2z"/></svg>',
+                anchor: [0.5, 0.5],
+                rotateWithView: true,
+                rotation: rotation,
+                scale: 0.8 // Make the arrow bigger
+            })
+        }));
+
+        vectorSource.addFeature(arrowFeature);
+    }
+
+    pathLayer = new ol.layer.Vector({
+        source: vectorSource
+    });
+
+    map.addLayer(pathLayer);
+}
+
+    const path = findPath('entrance', 'stairs');
+    if (path) {
+      drawPath(path);
+    } else {
+      console.log('No path found');
+    }
+     // Global variable to keep track of the path layer
+
 
     // Optional: Add a click event to get the coordinates of points on the map
     map.on('click', function(evt) {
