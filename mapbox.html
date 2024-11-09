@@ -1,28 +1,32 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Map | Classly</title>
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    <link href="https://api.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.css" rel="stylesheet">
-    <script src="https://api.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.js"></script>
-    <link rel="stylesheet" href="./css/mapbox.css">
-  </head>
-  <body>
-    <!-- Buttons and classes -->
-    <div class="interface">
-      <div class="menu-buttons">
-        <button><img src="./img/icons/gear.svg" alt=""></button>
-        <!-- Handle add classroom -->
-        <button onclick="addClass()"><img src="./img/icons/plus.svg" alt=""></button>
-      </div>
-      <div class="class-menu">
-        <span><button>CS-400</button><button onclick="removeClass()"><img src="./img/icons/minus.svg" alt=""></button></span>
-      </div>
+
+<head>
+  <meta charset="utf-8">
+  <title>Map | Classly</title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.css" rel="stylesheet">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.js"></script>
+  <link rel="stylesheet" href="./css/mapbox.css">
+</head>
+
+<body oncontextmenu="return;">
+  <!-- Buttons and classes -->
+  <div class="interface">
+    <div class="menu-buttons">
+      <button><img src="./img/icons/gear.svg" alt=""></button>
+      <!-- Handle add classroom -->
+      <button onclick="addClass()"><img src="./img/icons/plus.svg" alt=""></button>
     </div>
-    <!-- Mapbox map -->
-    <div id="mapbox"></div>
-    <script type="module" src="./js/mapbox.js"></script>
-    <script type="module" src="./js/classes.js"></script>
-  </body>
+    <div class="class-menu">
+      <span><button>CS-400</button><button onclick="removeClass()"><img src="./img/icons/minus.svg"
+            alt=""></button></span>
+    </div>
+  </div>
+  <!-- Mapbox map -->
+  <div id="mapbox"></div>
+  <script type="module" src="./js/mapbox.js"></script>
+  <script type="module" src="./js/classes.js"></script>
+</body>
+
 </html>
