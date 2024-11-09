@@ -51,8 +51,8 @@ form {
     justify-content: center;
 
     width: 80vw;
-    height: 60vh;
-    padding: 1rem;
+    padding-top: 50px;
+    padding-bottom: 50px;
     background-color: var(--bg-color-alt);
     border-radius: 40px;
 }
@@ -60,7 +60,6 @@ form {
 @media (min-width: 600px) {
     form {
         width: 36rem;
-        height: 24rem;
     }
 }
 
