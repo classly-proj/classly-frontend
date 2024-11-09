@@ -1,6 +1,7 @@
 export const API_HOST =
   {
     "127.0.0.1": "http://127.0.0.1:8000",
+    "192.168.1.103": "http://192.168.1.103:8000",
     localhost: "http://localhost:8000",
     hacknhbackend: "https://e2.server.eparker.dev:4455",
   }[window.location.hostname] || "http://localhost:8000";
