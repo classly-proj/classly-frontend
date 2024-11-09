@@ -11,11 +11,24 @@
     <link rel="stylesheet" href="./css/mapbox.css">
   </head>
   <body>
-    <div class="settings"></div>
+    <!-- Add class dialog -->
+    <div id="dialog" class="hidden">
+        <div class="add-class-menu">
+            <span>
+                <h1>Add Courses</h1>
+                <button onclick="closeDialog()"><img src="./img/icons/cross.svg" alt=""></button>
+            </span>
+            <div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Buttons and classes -->
     <div class="interface">
       <div class="menu-buttons">
         <button><img src="./img/icons/gear.svg" alt=""></button>
-        <button onclick="addClass()"><img src="./img/icons/plus.svg" alt=""></button>
+        <!-- Handle add classroom -->
+        <button onclick="openDialog()"><img src="./img/icons/plus.svg" alt=""></button>
       </div>
       <div class="class-menu">
         <span><button>CS-400</button><button onclick="removeClass()"><img src="./img/icons/minus.svg" alt=""></button></span>
@@ -23,7 +36,7 @@
     </div>
   </div>
   <!-- Mapbox map -->
-  <div id="mapbox"></div>
+  <!-- <div id="mapbox"></div> -->
   <script type="module" src="./js/mapbox.js"></script>
   <script type="module" src="./js/classes.js"></script>
 </body>
