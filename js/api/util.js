@@ -36,6 +36,7 @@ export class APIResponse {
         return {
             200: "OK",
             201: "Created",
+            226: "IM Used",
             400: "Bad Request",
             401: "Unauthorized",
             403: "Forbidden",
