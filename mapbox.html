@@ -24,19 +24,18 @@
         </div>
     </div>
     <!-- Buttons and classes -->
+    <div class="settings"></div>
     <div class="interface">
       <div class="menu-buttons">
         <button><img src="./img/icons/gear.svg" alt=""></button>
-        <!-- Handle add classroom -->
-        <button onclick="openDialog()"><img src="./img/icons/plus.svg" alt=""></button>
+        <button onclick="addClass()"><img src="./img/icons/plus.svg" alt=""></button>
       </div>
       <div class="class-menu">
-        <span><button>CS-400</button><button onclick="removeClass()"><img src="./img/icons/minus.svg" alt=""></button></span>
       </div>
     </div>
   </div>
   <!-- Mapbox map -->
-  <!-- <div id="mapbox"></div> -->
+  <div id="mapbox"></div>
   <script type="module" src="./js/mapbox.js"></script>
   <script type="module" src="./js/classes.js"></script>
 </body>
