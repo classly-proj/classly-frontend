@@ -2,7 +2,7 @@
 :root {
   --bg-color-main: #f1f1f1;
   --bg-color-alt: #fefefe;
-  --black-1: #111111;
+  --black: #111111;
 
   --blue: #458588;
 }
@@ -77,6 +77,10 @@ h1 {
   100% {
     top: 0rem;
   }
+}
+
+.hidden {
+  display: none;
 }
 
 #account-switch {

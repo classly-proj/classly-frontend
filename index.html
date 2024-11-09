@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Class.ly</title>
+    <title>Classly</title>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
     <link href="https://api.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.js"></script>
     <script type="module" src="./js/app.js"></script>
     <link rel="stylesheet" href="./css/login.css">
-    <link rel="stylesheet" href="./css/style.css">
     <link rel="manifest" href="/hacknhfrontend/manifest.json">
 
-    <!-- ios support-->
+    <!-- IOS support-->
     <link rel="apple-touch-icon" href="./icons/logo-192x192.png">
     <meta name="apple-mobile-web-app-status-bar" content="#aa7700">
     <meta name="mobile-web-app-capable" content="yes">
@@ -22,10 +21,11 @@
   <body>
     <main>
       <h1>
-        Welcome to Class.ly!
+        Welcome to Classly!
       </h1>
+      <!-- Login/Account form -->
       <form onsubmit="return false">
-        <h3 id="account-header">Login:</h3>
+        <h2 id="account-header">Login:</h2>
         <input id="username" type="text" required placeholder="Username">
         <input id="password" type="password" required placeholder="Password">
         <input id="confirm" class="hidden" type="password" placeholder="Confirm Password">
