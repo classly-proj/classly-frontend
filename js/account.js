@@ -39,6 +39,9 @@ function switchForm(state) {
 
   // Change form header
   confirmPassword.classList.toggle("hidden");
+
+  // Clear confirm password
+  confirmPassword.value = "";
 }
 
 /**
@@ -47,11 +50,18 @@ function switchForm(state) {
  */
 async function submitForm(state) {
   const credentials = fetchInput();
-  const confirm = document.getElementById("confirm").value;
+
+  const password = document.getElementById("password");
+  const confirm = document.getElementById("confirm");
+  const errorText = document.getElementById("error");
 
   // Check confirm password matches main password
-  if (confirm && confirm !== credentials.password) {
-    console.log("no" + credentials.password + " " + confirm);
+  if (confirm.value && confirm.value !== credentials.password) {
+    password.classList.add("error");
+    confirm.classList.add("error");
+
+    // Add something on the backend that returns a specific error message when failed.
+    errorText.innerHTML = "ERROR: Passwords don't match";
     return;
   }
 
@@ -65,7 +75,11 @@ async function submitForm(state) {
   if (status.ok) {
     window.location.replace("./mapbox.html");
   } else {
-    console.log(`ERROR: Something went wrong (${status})`);
+    password.classList.add("error");
+    confirm.classList.add("error");
+
+    // Add something on the backend that returns a specific error message when failed.
+    errorText.innerHTML = "ERROR: Something went wrong";
   }
 }
 
