@@ -1,3 +1,5 @@
+import { createAccount, login } from "./api/user.js";
+
 /**
  * Swap login form to register form and vice versa
  * @param {String} state Current form state (login/register)
@@ -68,8 +70,8 @@ async function submitForm(state) {
   // Run appropriate function
   const status =
     state === "login"
-      ? await login(credentials)
-      : await createAccount(credentials);
+      ? await login(credentials.username, credentials.password)
+      : await createAccount(credentials.username, credentials.password);
 
   // Check return status and redirect if OK is true
   if (status.ok) {
@@ -94,53 +96,5 @@ function fetchInput() {
   return { username, password };
 }
 
-/**
- * Handle account creation
- * @param {Object} creds Username and Password credentials
- */
-async function createAccount(creds) {
-  const res = await fetch("http://127.0.0.1:8000/user/create", {
-    method: "POST",
-    headers: {
-      "Content-Type": "text/plain",
-    },
-    body: JSON.stringify(creds),
-  });
-
-  if (res.status !== 200) {
-    return {
-      ok: false,
-      status: res.status,
-    };
-  }
-
-  return {
-    ok: true,
-    user: await res.json(),
-  };
-}
-
-/**
- * Handle login event
- * @param {Object} creds Username and Password credentials
- */
-async function login(creds) {
-  const res = await fetch("http://localhost:8000/user/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "text/plain",
-    },
-    body: JSON.stringify(creds),
-  });
-
-  if (res.status !== 200) {
-    return {
-      ok: false,
-      status: res.status,
-    };
-  }
-
-  return {
-    ok: true,
-  };
-}
+window.switchForm = switchForm;
+window.submitForm = submitForm;
