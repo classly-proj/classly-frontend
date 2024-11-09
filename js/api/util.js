@@ -4,7 +4,7 @@ export const API_HOST =
     "192.168.1.103": "http://192.168.1.103:8000",
     localhost: "http://localhost:8000",
     hacknhbackend: "https://e2.server.eparker.dev:4455",
-  }[window.location.hostname] || "http://localhost:8000";
+  }[window.location.hostname] || `//${location.hostname}:8000`;
 
 export const POST_FIELDS = {
     method: "POST",
