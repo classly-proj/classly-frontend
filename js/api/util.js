@@ -13,6 +13,12 @@ export const POST_FIELDS = {
 
 export class APIResponse {
     /**
+     * A cache of HTTPCat images
+     * @type {Map<number, HTMLImageElement>}
+     */
+    static catCache = new Map();
+
+    /**
      * An API response object
      * @param {number} status The HTTP status code
      * @param {any} data The response data
@@ -44,6 +50,26 @@ export class APIResponse {
         }[this.status] || "Unknown Status";
     }
 
+    /**
+     * Get the HTTPCat image for the response
+     * @returns {Promise<HTMLImageElement>}
+     */
+    async getHTTPCat() {
+        if (APIResponse.catCache.has(this.status)) {
+            return APIResponse.catCache.get(this.status);
+        }
+
+        const image = new Image();
+
+        await new Promise((resolve, reject) => {
+            image.onload = resolve;
+            image.onerror = reject;
+            image.src = this.getStatusName() === "Unknown Status" ? "https://http.cat/418.jpg" : `https://http.cat/${this.status}.jpg`;
+        });
+
+        APIResponse.catCache.set(this.status, image);
+        return image;
+    }
 
     /**
      * @type {boolean}
