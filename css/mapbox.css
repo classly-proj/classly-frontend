@@ -1,0 +1,116 @@
+:root {
+  --bg-color-main: #f1f1f1;
+  --bg-color-alt: #fefefe;
+  --black: #111111;
+
+  --blue: #458588;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+
+  /* Font styling */
+  font-family: 'Franklin Gothic Medium', Arial, sans-serif;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -ms-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Style menu for MOBILE */
+.interface {
+  position: absolute;
+  z-index: 10;
+  left: 0; 
+  right: 0;
+  bottom: 1rem; 
+  margin: auto; 
+
+  display: flex;
+  flex-direction: column;
+  width: 80vw;
+}
+
+
+button img {
+  width: 4vh;
+  height: 4vh;
+}
+
+.menu-buttons {
+  display: flex;
+
+  button {
+    background-color: var(--bg-color-main);
+    border: 0;
+    border-radius: 100%;
+    width: 6vh;
+    height: 6vh;
+    margin: 5px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.class-menu {
+  display: flex;
+  flex-direction: column;
+  width: 80vw;
+  height: 30vh;
+  padding: 20px;
+  background-color: var(--bg-color-main);
+  border-radius: 20px;
+
+  button {
+    background-color: var(--bg-color-alt);
+    border: 0;
+  }
+}
+
+/* Style menu for desktop */
+@media (min-width: 600px) {
+  .interface {
+    left: 1rem; 
+    bottom: 1rem;
+    margin: 0;
+
+    width: 24em;
+  }
+
+  button img {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .menu-buttons {  
+    button {
+      width: 2.5rem;
+      height: 2.5rem;
+    } 
+  }
+
+  .class-menu {
+    width: 18rem;
+    height: 20rem;
+  }
+}
+
+#mapbox { 
+  position: absolute; 
+  top: 0; 
+  bottom: 0; 
+  width: 100%; 
+}
