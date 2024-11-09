@@ -6,10 +6,10 @@ export const API_HOST =
   }[window.location.hostname] || "http://localhost:8000";
 
 export const POST_FIELDS = {
-  method: "POST",
-  headers: {
-    "Content-Type": "text/plain",
-  },
+    method: "POST",
+    headers: {
+        "Content-Type": "text/plain"
+    }
 };
 
 export class APIResponse {
