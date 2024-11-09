@@ -1,0 +1,30 @@
+{
+    "TERM_CRN": "20241012980",
+    "COURSE_DATA": {
+        "SYVSCHD_CRSE_LONG_TITLE": "Survey of Accounting",
+        "SYVSCHD_SUBJ_CODE": "ACC",
+        "SYVSCHD_CRSE_NUMB": "501",
+        "SYVSCHD_CRSE_DESC": "Survey of basic accounting concepts, including exposure to financial statements, accounting processes, decision making, and budgeting. This course is designed for students pursuing a Business Administration minor, a minor in Accounting and Financial Information or exploring basic accounting. Not for Paul College Business Administration students.",
+        "INSTRUCTORS": [
+            {
+                "LAST_NAME": "Robinson",
+                "FIRST_NAME": "Ian",
+                "EMAIL": "Ian.Robinson@unh.edu"
+            }
+        ],
+        "MEETINGS": [
+            {
+                "DAYS": "T",
+                "BUILDING": "PCBE",
+                "ROOM": "185",
+                "TIME": "5:10pm - 8:00pm"
+            },
+            {
+                "DAYS": "W",
+                "BUILDING": "PCBE",
+                "ROOM": "185",
+                "TIME": "6:00pm - 8:00pm"
+            }
+        ]
+    }
+}
