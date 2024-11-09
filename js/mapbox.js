@@ -1,10 +1,12 @@
-mapboxgl.accessToken =
-  "pk.eyJ1IjoiZHNjYXJiMjEiLCJhIjoiY2x0cnR3cWlqMGtmZzJucDU2eDR2eWpyMCJ9.nfk8bnbhwkUmEHDhKZv3zA";
+import { loadDirections } from "./api/mapbox.js";
 
 const bounds = [
   [-70.956425, 43.118725], 
   [-70.894926, 43.154229],
 ];
+
+mapboxgl.accessToken = "pk.eyJ1IjoiZHNjYXJiMjEiLCJhIjoiY2x0cnR3cWlqMGtmZzJucDU2eDR2eWpyMCJ9.nfk8bnbhwkUmEHDhKZv3zA";
+
 
 const map = new mapboxgl.Map({
   container: "mapbox", 
@@ -17,10 +19,14 @@ const map = new mapboxgl.Map({
 const start = [-70.930745,43.152942];
 
 async function loadRoute(end) {
-  const targetUrl = `https://api.mapbox.com/directions/v5/mapbox/driving/${start[0]}%2C${start[1]}%3B${end[0]}%2C${end[1]}?alternatives=true&geometries=geojson&language=en&overview=full&steps=true&access_token=pk.eyJ1IjoiZHNjYXJiMjEiLCJhIjoiY2x0cnR1Y254MGkxdzJqbnZ2bHowcHN1MiJ9.TSvhTRQ2X-G0M-mzagneOw`;
+  const response = await loadDirections(start[0], start[1], end[0], end[1]);
 
-  const query = await fetch(targetUrl);
-  const json = await query.json();
+  if (!response.ok) {
+    console.error('Error loading directions:', response.getStatusName());
+    return;
+  }
+
+  const json = response.data;
   const data = json.routes[0];
   const route = data.geometry.coordinates;
   const geojson = {
