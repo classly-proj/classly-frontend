@@ -3,6 +3,7 @@
   <head>
     <title>Class.ly</title>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
     <link rel="stylesheet" href="./css/login.css">
     <link rel="stylesheet" href="./css/style.css">
   </head>
@@ -11,13 +12,13 @@
       <h1>
         Welcome to Class.ly!
       </h1>
-      <form id="account" onsubmit="formSubmit('login'); return false">
+      <form onsubmit="return false">
         <h3 id="account-header">Login:</h3>
-        <input id="username" type="text" placeholder="Username">
-        <input id="password" type="password" placeholder="Password">
+        <input id="username" type="text" required placeholder="Username">
+        <input id="password" type="password" required placeholder="Password">
         <input id="confirm" class="hidden" type="password" placeholder="Confirm Password">
         <p id="account-switch" onclick="switchForm('login')">Don't have an account? Register now</p>
-        <button id="account-submit" type="submit" value="Submit">Submit</button>
+        <button id="account-submit" type="submit" onclick="submitForm('login')">Submit</button>
       </form>
     </main>
     <script src="./js/account.js"></script>
