@@ -1,14 +1,24 @@
 /* Styling for login/account creation page */
 :root {
-    --bg-color-main: #f1f1f1;
-    --bg-color-alt: #fefefe;
+    --bg-color-main: #E0E0E0;
+    --bg-color-alt: #f1f1f1;
     --black: #111111;
 
     --blue: #458588;
 }
 
-* {
-    font-family: sans-serif;
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+
+  /* Font styling */
+  font-family: Arial, sans-serif;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -ms-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
 }
 
 main {
@@ -85,6 +95,13 @@ h1 {
 
 .hidden {
     display: none;
+}
+
+.error {
+  background-color: #ffcccb;
+}
+#error {
+  color: #ff0000;
 }
 
 #account-switch {

@@ -1,7 +1,7 @@
 :root {
-  --bg-color-main: #f1f1f1;
-  --bg-color-alt: #fefefe;
-  --black: #111111;
+  --bg-color-main: #E0E0E0;
+  --bg-color-alt: #f1f1f1;
+  --black: #1e1e1e;
 
   --blue: #458588;
 }
@@ -16,7 +16,7 @@ body {
   overflow: hidden;
 
   /* Font styling */
-  font-family: 'Franklin Gothic Medium', Arial, sans-serif;
+  font-family: Arial, sans-serif;
   -webkit-text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   -ms-text-size-adjust: 100%;
@@ -58,6 +58,8 @@ button img {
     width: 6vh;
     height: 6vh;
     margin: 5px;
+    border-radius: 20px;
+    filter: drop-shadow(0  2px 1px var(--black));
 
     display: flex;
     justify-content: center;
@@ -73,6 +75,7 @@ button img {
   padding: 20px;
   background-color: var(--bg-color-main);
   border-radius: 20px;
+  filter: drop-shadow(0  2px 1px var(--black));
 
   button {
     background-color: var(--bg-color-alt);
