@@ -8,6 +8,8 @@ function switchForm(state) {
     const formSubmit = document.getElementById("account-submit");
     const switchButton = document.getElementById("account-switch");
     const formHeader = document.getElementById("account-header");
+    const firstName = document.getElementById("first");
+    const lastName = document.getElementById("last");
     const confirmPassword = document.getElementById("confirm");
 
     // Update form submit function
@@ -41,6 +43,9 @@ function switchForm(state) {
 
     // Change form header
     confirmPassword.classList.toggle("hidden");
+    firstName.classList.toggle("hidden");
+    lastName.classList.toggle("hidden");
+
 
     // Clear confirm password
     confirmPassword.value = "";
@@ -70,8 +75,8 @@ async function submitForm(state) {
     // Run appropriate function
     const status =
         state === "login"
-            ? await userAPI.login(credentials.username, credentials.password)
-            : await userAPI.createAccount(credentials.username, credentials.password);
+            ? await userAPI.login(credentials.email, credentials.password)
+            : await userAPI.createAccount(credentials.email, credentials.password);
 
     // Check return status and redirect if OK is true
     if (status.ok) {
@@ -91,10 +96,10 @@ async function submitForm(state) {
  * Needs to be done this way because Evans weird backend
  */
 function fetchInput() {
-    const username = document.getElementById("username").value;
+    const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    return { username, password };
+    return { email, password };
 }
 
 window.switchForm = switchForm;
