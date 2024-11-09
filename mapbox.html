@@ -9,10 +9,10 @@
     <link href="https://api.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.css" rel="stylesheet">
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.js"></script>
     <link rel="stylesheet" href="./css/mapbox.css">
-    <script type="module" src="./js/mapbox.js"></script>
-    <script type="module" src="./js/classes.js"></script>
   </head>
   <body>
+    <!-- Settings -->
+    <div class="settings"></div>
     <!-- Add class dialog -->
     <div id="dialog" class="hidden">
         <div class="add-class-menu">
@@ -26,19 +26,19 @@
         </div>
     </div>
     <!-- Buttons and classes -->
-    <div class="settings"></div>
     <div class="interface">
       <div class="menu-buttons">
         <button><img src="./img/icons/gear.svg" alt=""></button>
-        <button onclick="addClass()"><img src="./img/icons/plus.svg" alt=""></button>
+        <!-- Handle add classroom -->
+        <button onclick="openDialog()"><img src="./img/icons/plus.svg" alt=""></button>
       </div>
       <div class="class-menu">
       </div>
     </div>
-  </div>
-  <button id="buildmode">I've Arrived!</button>
-  <!-- Mapbox map -->
-  <div id="mapbox"></div>
-</body>
-
+    <button id="buildmode">I've Arrived!</button>
+    <!-- Mapbox map -->
+    <div id="mapbox"></div>
+    <script type="module" src="./js/mapbox.js"></script>
+    <script type="module" src="./js/classes.js"></script>
+    </body>
 </html>
