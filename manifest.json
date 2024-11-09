@@ -8,17 +8,17 @@
     "orientation": "portrait",
     "icons": [
         {
-            "src": "./icons/logo-256x256.png",
+            "src": "./public/logo-256x256.png",
             "type": "image/png",
             "sizes": "256x256"
         },
         {
-            "src": "./icons/logo-192x192.png",
+            "src": "./public/logo-192x192.png",
             "type": "image/png",
             "sizes": "192x192"
         },
         {
-            "src": "./icons/logo-96x96.png",
+            "src": "./public/logo-96x96.png",
             "type": "image/png",
             "sizes": "96x96"
         }
