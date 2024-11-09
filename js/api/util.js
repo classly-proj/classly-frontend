@@ -9,7 +9,8 @@ export const POST_FIELDS = {
     method: "POST",
     headers: {
         "Content-Type": "text/plain"
-    }
+    },
+    credentials: "include"
 };
 
 export class APIResponse {

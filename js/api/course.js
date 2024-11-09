@@ -1,7 +1,9 @@
 import { API_HOST, APIResponse, POST_FIELDS } from "./util.js";
 
 export async function getCourseCRNS() {
-    const res = await fetch(API_HOST + "/course/all");
+    const res = await fetch(API_HOST + "/course/all", {
+        credentials: "include"
+    });
 
     return new APIResponse(res.status, res.status === 200 ? await res.json() : null);
 }
@@ -18,7 +20,9 @@ export async function getCourse(crn) {
 }
 
 export async function getCourseQueriableFields() {
-    const res = await fetch(API_HOST + "/course/query/list");
+    const res = await fetch(API_HOST + "/course/query/list", {
+        credentials: "include"
+    });
 
     return new APIResponse(res.status, res.status === 200 ? await res.json() : null);
 }

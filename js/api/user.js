@@ -25,13 +25,17 @@ export async function login(username, password) {
 }
 
 export async function logout() {
-    const response = await fetch(API_HOST + "/user/logout");
+    const response = await fetch(API_HOST + "/user/logout", {
+        credentials: "include"
+    });
 
     return new APIResponse(response.status, null);
 }
 
 export async function getUsers() {
-    const response = await fetch(API_HOST + "/user/get");
+    const response = await fetch(API_HOST + "/user/get", {
+        credentials: "include"
+    });
 
     return new APIResponse(response.status, response.status === 200 ? await response.json() : null);
 }
@@ -49,7 +53,8 @@ export async function getUser(username) {
 
 export async function deleteUser() {
     const response = await fetch(API_HOST + "/user/delete", {
-        method: "DELETE"
+        method: "DELETE",
+        credentials: "include"
     });
 
     return new APIResponse(response.status, null);
@@ -74,7 +79,9 @@ export async function removeCourses(...crns) {
 }
 
 export async function getMe() {
-    const response = await fetch(API_HOST + "/user/me");
+    const response = await fetch(API_HOST + "/user/me", {
+        credentials: "include"
+    });
 
     return new APIResponse(response.status, response.status === 200 ? await response.json() : null);
 }
