@@ -1,47 +1,49 @@
+import * as userAPI from "./api/user.js";
+
 /**
  * Swap login form to register form and vice versa
  * @param {String} state Current form state (login/register)
  */
 function switchForm(state) {
-  const formSubmit = document.getElementById("account-submit");
-  const switchButton = document.getElementById("account-switch");
-  const formHeader = document.getElementById("account-header");
-  const confirmPassword = document.getElementById("confirm");
+    const formSubmit = document.getElementById("account-submit");
+    const switchButton = document.getElementById("account-switch");
+    const formHeader = document.getElementById("account-header");
+    const confirmPassword = document.getElementById("confirm");
 
-  // Update form submit function
-  formSubmit.onclick =
-    state === "login"
-      ? function () {
-          submitForm("register");
-        }
-      : function () {
-          submitForm("login");
-        };
+    // Update form submit function
+    formSubmit.onclick =
+        state === "login"
+            ? function () {
+                submitForm("register");
+            }
+            : function () {
+                submitForm("login");
+            };
 
-  // Update button html
-  switchButton.innerHTML =
-    state === "login"
-      ? "Have an account? Login here"
-      : "Don't have an account? Register now";
+    // Update button html
+    switchButton.innerHTML =
+        state === "login"
+            ? "Have an account? Login here"
+            : "Don't have an account? Register now";
 
-  // Update login to account create event
-  switchButton.onclick =
-    state === "login"
-      ? function () {
-          switchForm("register");
-        }
-      : function () {
-          switchForm("login");
-        };
+    // Update login to account create event
+    switchButton.onclick =
+        state === "login"
+            ? function () {
+                switchForm("register");
+            }
+            : function () {
+                switchForm("login");
+            };
 
-  // Change form header
-  formHeader.innerHTML = state === "login" ? "Create an Account:" : "Login:";
+    // Change form header
+    formHeader.innerHTML = state === "login" ? "Create an Account:" : "Login:";
 
-  // Change form header
-  confirmPassword.classList.toggle("hidden");
+    // Change form header
+    confirmPassword.classList.toggle("hidden");
 
-  // Clear confirm password
-  confirmPassword.value = "";
+    // Clear confirm password
+    confirmPassword.value = "";
 }
 
 /**
@@ -49,38 +51,38 @@ function switchForm(state) {
  * @param {String} state Current form state (login/register)
  */
 async function submitForm(state) {
-  const credentials = fetchInput();
+    const credentials = fetchInput();
 
-  const password = document.getElementById("password");
-  const confirm = document.getElementById("confirm");
-  const errorText = document.getElementById("error");
+    const password = document.getElementById("password");
+    const confirm = document.getElementById("confirm");
+    const errorText = document.getElementById("error");
 
-  // Check confirm password matches main password
-  if (confirm.value && confirm.value !== credentials.password) {
-    password.classList.add("error");
-    confirm.classList.add("error");
+    // Check confirm password matches main password
+    if (confirm.value && confirm.value !== credentials.password) {
+        password.classList.add("error");
+        confirm.classList.add("error");
 
-    // Add something on the backend that returns a specific error message when failed.
-    errorText.innerHTML = "ERROR: Passwords don't match";
-    return;
-  }
+        // Add something on the backend that returns a specific error message when failed.
+        errorText.innerHTML = "ERROR: Passwords don't match";
+        return;
+    }
 
-  // Run appropriate function
-  const status =
-    state === "login"
-      ? await login(credentials)
-      : await createAccount(credentials);
+    // Run appropriate function
+    const status =
+        state === "login"
+            ? await userAPI.login(credentials.username, credentials.password)
+            : await userAPI.createAccount(credentials.username, credentials.password);
 
-  // Check return status and redirect if OK is true
-  if (status.ok) {
-    window.location.replace("./mapbox.html");
-  } else {
-    password.classList.add("error");
-    confirm.classList.add("error");
+    // Check return status and redirect if OK is true
+    if (status.ok) {
+        window.location.replace("./mapbox.html");
+    } else {
+        password.classList.add("error");
+        confirm.classList.add("error");
 
-    // Add something on the backend that returns a specific error message when failed.
-    errorText.innerHTML = "ERROR: Something went wrong";
-  }
+        // Add something on the backend that returns a specific error message when failed.
+        errorText.innerHTML = "ERROR: Something went wrong";
+    }
 }
 
 /**
@@ -88,59 +90,14 @@ async function submitForm(state) {
  * Needs to be done this way because Evans weird backend
  */
 function fetchInput() {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
 
-  return { username, password };
+    return { username, password };
 }
 
-/**
- * Handle account creation
- * @param {Object} creds Username and Password credentials
- */
-async function createAccount(creds) {
-  const res = await fetch("http://127.0.0.1:8000/user/create", {
-    method: "POST",
-    headers: {
-      "Content-Type": "text/plain",
-    },
-    body: JSON.stringify(creds),
-  });
+window.switchForm = switchForm;
+window.submitForm = submitForm;
 
-  if (res.status !== 200) {
-    return {
-      ok: false,
-      status: res.status,
-    };
-  }
 
-  return {
-    ok: true,
-    user: await res.json(),
-  };
-}
-
-/**
- * Handle login event
- * @param {Object} creds Username and Password credentials
- */
-async function login(creds) {
-  const res = await fetch("http://localhost:8000/user/login", {
-    method: "POST",
-    headers: {
-      "Content-Type": "text/plain",
-    },
-    body: JSON.stringify(creds),
-  });
-
-  if (res.status !== 200) {
-    return {
-      ok: false,
-      status: res.status,
-    };
-  }
-
-  return {
-    ok: true,
-  };
-}
+window.api = userAPI;
