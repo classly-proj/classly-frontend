@@ -76,7 +76,7 @@ async function submitForm(state) {
     const status =
         state === "login"
             ? await userAPI.login(credentials.email, credentials.password)
-            : await userAPI.createAccount(credentials.email, credentials.password);
+            : await userAPI.createAccount(credentials.email, credentials.first, credentials.last, credentials.password);
 
     // Check return status and redirect if OK is true
     if (status.ok) {
@@ -97,9 +97,11 @@ async function submitForm(state) {
  */
 function fetchInput() {
     const email = document.getElementById("email").value;
+    const first = document.getElementById("first").value;
+    const last = document.getElementById("last").value;
     const password = document.getElementById("password").value;
 
-    return { email, password };
+    return { email, first, last, password };
 }
 
 window.switchForm = switchForm;
