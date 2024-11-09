@@ -7,7 +7,7 @@ export const API_HOST = {
 export const POST_FIELDS = {
     method: "POST",
     headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "text/plain"
     }
 };
 
