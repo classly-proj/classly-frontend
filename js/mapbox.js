@@ -1,10 +1,12 @@
-mapboxgl.accessToken =
-  "pk.eyJ1IjoiZHNjYXJiMjEiLCJhIjoiY2x0cnR3cWlqMGtmZzJucDU2eDR2eWpyMCJ9.nfk8bnbhwkUmEHDhKZv3zA";
+import { loadDirections } from "./api/mapbox.js";
 
 const bounds = [
   [-70.956425, 43.118725], 
   [-70.894926, 43.154229],
 ];
+
+mapboxgl.accessToken = "pk.eyJ1IjoiZHNjYXJiMjEiLCJhIjoiY2x0cnR3cWlqMGtmZzJucDU2eDR2eWpyMCJ9.nfk8bnbhwkUmEHDhKZv3zA";
+
 
 const map = new mapboxgl.Map({
   container: "mapbox", 

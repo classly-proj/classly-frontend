@@ -82,6 +82,7 @@ async function submitForm(state) {
 
         // Add something on the backend that returns a specific error message when failed.
         errorText.innerHTML = "ERROR: Something went wrong";
+        alert(status.getStatusName());
     }
 }
 
