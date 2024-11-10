@@ -1,6 +1,10 @@
 import { addCourses, changeName, getMe, removeCourses } from "./api/user.js";
-import { getCourse, getCourseCRNS, getCourseQueriableFields, queryCourses } from "./api/course.js";
-import { getCurrCoords, findEntrance, loadRoute} from "./mapbox.js";
+import { getCurrCoords, findEntrance, loadRoute } from "./mapbox.js";
+import {
+    getCourse,
+    getCourseQueriableFields,
+    queryCourses,
+} from "./api/course.js";
 
 const dialog = document.getElementById("dialog");
 var building = null;
@@ -40,7 +44,7 @@ async function updateClassList() {
         }
 
         const course = response.data;
-        console.log(course)
+        console.log(course);
 
         const span = document.createElement("span");
 
@@ -48,15 +52,15 @@ async function updateClassList() {
             const button = document.createElement("button");
             button.innerText = `(${course.COURSE_DATA.SYVSCHD_SEQ_NUMB}) ${course.COURSE_DATA.SYVSCHD_SUBJ_CODE}${course.COURSE_DATA.SYVSCHD_CRSE_NUMB} ${course.COURSE_DATA.SYVSCHD_CRSE_LONG_TITLE}`;
             span.appendChild(button);
-            button.onclick = async() => {
-                building = course.COURSE_DATA.MEETINGS[0].BUILDING
-                room = course.COURSE_DATA.MEETINGS[0].ROOM
-                sessionStorage.setItem('building', building);
-                sessionStorage.setItem('room', room);
-                const goalCoords = await findEntrance(building)
-                console.log(goalCoords)
-                await loadRoute(getCurrCoords(), goalCoords)
-            }
+            button.onclick = async () => {
+                building = course.COURSE_DATA.MEETINGS[0].BUILDING;
+                room = course.COURSE_DATA.MEETINGS[0].ROOM;
+                sessionStorage.setItem("building", building);
+                sessionStorage.setItem("room", room);
+                const goalCoords = await findEntrance(building);
+                console.log(goalCoords);
+                await loadRoute(getCurrCoords(), goalCoords);
+            };
         }
         {
             const button = document.createElement("button");
@@ -73,7 +77,6 @@ async function updateClassList() {
     }
 }
 
-
 function openDialog() {
     dialog.classList.remove("hidden");
 }
@@ -87,7 +90,7 @@ function updateSearchResults(results) {
 
     div.innerHTML = "";
 
-    results.forEach(course => {
+    results.forEach((course) => {
         const span = document.createElement("span");
         span.innerText = `(${course.COURSE_DATA.SYVSCHD_SEQ_NUMB}) ${course.COURSE_DATA.SYVSCHD_SUBJ_CODE}${course.COURSE_DATA.SYVSCHD_CRSE_NUMB} ${course.COURSE_DATA.SYVSCHD_CRSE_LONG_TITLE}`;
         span.onclick = async () => {
@@ -120,6 +123,11 @@ async function search() {
         const option = document.createElement("option");
         option.value = key;
         option.innerText = value;
+
+        if (value === "Title") {
+            option.selected = "selected";
+        }
+
         select.appendChild(option);
     }
 
@@ -162,7 +170,7 @@ async function search() {
 }
 
 async function openSettings() {
-    await updateSettings()
+    await updateSettings();
     settings.classList.remove("hidden");
 }
 
@@ -172,41 +180,45 @@ function closeSettings() {
 
 async function updateSettings() {
     try {
-        const response = await getMe();  // Call getMe and wait for the promise to resolve.
-        const data = response.data;      // Access the data property of the response.
+        const response = await getMe(); // Call getMe and wait for the promise to resolve.
+        const data = response.data; // Access the data property of the response.
 
         // Check if the response is successful and data is available
         if (response.status === 200 && data) {
             // Set the value for the first name input
-            const firstNameInput = document.getElementById('settings-firstName');
-            if (firstNameInput) firstNameInput.value = data.first || '';
+            const firstNameInput =
+                document.getElementById("settings-firstName");
+            if (firstNameInput) firstNameInput.value = data.first || "";
 
             // Set the value for the last name input
-            const lastNameInput = document.getElementById('settings-lastName');
-            if (lastNameInput) lastNameInput.value = data.last || '';
+            const lastNameInput = document.getElementById("settings-lastName");
+            if (lastNameInput) lastNameInput.value = data.last || "";
         } else {
-            console.error('Failed to retrieve user data. Status:', response.status);
+            console.error(
+                "Failed to retrieve user data. Status:",
+                response.status
+            );
         }
     } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
     }
 }
 
 async function saveSettings() {
-    const firstName = document.getElementById('settings-firstName').value;
-    const lastName = document.getElementById('settings-lastName').value;
+    const firstName = document.getElementById("settings-firstName").value;
+    const lastName = document.getElementById("settings-lastName").value;
 
     const response = await changeName(firstName, lastName);
 
     if (response.status === 200) {
-        alert('Name changed successfully!');
+        alert("Name changed successfully!");
     } else {
-        alert('Failed to change name. Status code: ' + response.status);
+        alert("Failed to change name. Status code: " + response.status);
     }
 }
 
 export function getBuildingRoom() {
-    return {building, room}
+    return { building, room };
 }
 
 // Assign function values

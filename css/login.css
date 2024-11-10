@@ -49,6 +49,7 @@ main {
 main h1 {
     color: #FFFFFF;
     font-size: 4.5vmin;
+    filter: drop-shadow(2px 2px 0px var(--black));
 }
 
 @keyframes fadeOnLoad {
