@@ -2,23 +2,36 @@
 <html lang="en">
 
 <head>
-  <title>Building Map | Classly</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" href="./public/logo-16x16.png" sizes="16x16">
-  <link rel="icon" type="image/png" href="./public/logo-32x32.png" sizes="32x32">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.css" type="text/css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.js" defer></script>
-  <link rel="stylesheet" href="./css/openlayer.css">
+    <title>Building Map | Classly</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="./public/logo-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="./public/logo-32x32.png" sizes="32x32">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.css" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.js" defer></script>
+    <link rel="stylesheet" href="./css/openlayer.css">
 </head>
 
 <body oncontextmenu="return;">
-  <h1 id="deny">Please Select A Course To See A Building Map</h1>
-  <div id="map"></div>
-  <button id="nav"> Next Floor </button>
-  <button id="mapmode">Map Mode</button>
-  
-  <script type="module" src="./js/openlayer.js"></script>
+    <h1 id="deny">Please Select A Course To See A Building Map</h1>
+    <div id="map"></div>
+    <button id="nav"> Next Floor </button>
+    <button id="mapmode">Map Mode</button>
+
+    <script type="module" src="./js/openlayer.js"></script>
+
+    <script type="module">
+        import { getMe } from "./js/api/user.js";
+
+        getMe().then(response => {
+            if (!response.ok) {
+                console.warn("Not Authenticated!");
+                window.location.href = "./index.html";
+            } else {
+                console.log("Authenticated as", response.data);
+            }
+        });
+    </script>
 
 </body>
 
