@@ -53,7 +53,7 @@ button {
 
     background-color: var(--bg-color-main);
     filter: drop-shadow(0  2px 1px var(--black));
-    width: 90vw;
+    width: 80vw;
     height: 50vh;
     border-radius: 20px;
 
@@ -66,12 +66,24 @@ button {
         display: flex;
         justify-content: center;
     }
+
+    input, select {
+        width: 30vw;
+        padding: 10px;
+        margin: 10px;
+        border-radius: 100px;
+        background-color: #ffffff;
+    }
 }
 
 @media (min-width: 600px) {
     .add-class-menu {
         width: 30rem;
         height: 32rem;
+
+        input, select {
+            width: 12rem;
+        }
     }
 }
 
@@ -116,7 +128,7 @@ button img {
   }
 }
 
-.class-menu {
+#class-menu {
   display: flex;
   flex-direction: column;
   width: 80vw;
@@ -148,6 +160,7 @@ button img {
     button {
         height: 2.5rem;
         border-radius: 20px;
+        margin: 5px;
         filter: drop-shadow(0  2px 1px var(--bg-color-main));
     }
 }
@@ -174,7 +187,7 @@ button img {
     } 
   }
 
-  .class-menu {
+  #class-menu {
     width: 18rem;
     height: 20rem;
   }

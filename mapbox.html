@@ -20,6 +20,10 @@
                 <h1>Add Courses</h1>
                 <button onclick="closeDialog()"><img src="./img/icons/cross.svg" alt=""></button>
             </span>
+            <span>
+                <select id="course-select"></select>
+                <input id="course-search" type="" placeholder="search">
+            </span>
             <div>
 
             </div>
@@ -32,14 +36,13 @@
         <!-- Handle add classroom -->
         <button onclick="openDialog()"><img src="./img/icons/plus.svg" alt=""></button>
       </div>
-      <div class="class-menu">
+      <div id="class-menu">
       </div>
     </div>
   </div>
   <button id="buildmode">I've Arrived!</button>
   <!-- Mapbox map -->
   <div id="mapbox"></div>
-  <!-- <div id="mapbox"></div> -->
   <script type="module" src="./js/mapbox.js"></script>
   <script type="module" src="./js/classes.js"></script>
 </body>
