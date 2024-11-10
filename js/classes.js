@@ -1,5 +1,5 @@
 import { addCourses, changeName, getMe, removeCourses } from "./api/user.js";
-import { getCourse, getCourseCRNS, getCourseQueriableFields } from "./api/course.js";
+import { getCourse, getCourseCRNS, getCourseQueriableFields, queryCourses } from "./api/course.js";
 
 const body = document.querySelector("body");
 const dialog = document.getElementById("dialog");
@@ -139,22 +139,15 @@ async function search() {
             }
         }
 
-        const response = await fetch("http://127.0.0.1:8000/course/query", {
-            method: "POST",
-            headers: {
-                "Content-Type": "text/plain",
-            },
-            body: JSON.stringify({ key: searchKey, value: searchValue }),
-        });
+        const response = await queryCourses(searchKey, searchValue);
 
-        if (response.status !== 200) {
-            return {
-                ok: false,
-                status: response.status,
-            };
+        if (!response.ok) {
+            console.error("Failed to search courses:", response.status);
+            setTimeout(searchTick, 1000);
+            return;
         }
 
-        updateSearchResults(await response.json());
+        updateSearchResults(response.data);
         setTimeout(searchTick, 100);
     }
 
