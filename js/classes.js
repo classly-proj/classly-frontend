@@ -8,13 +8,16 @@ async function onPageLoad() {
 
     if (!user.ok) {
         alert("Error! " + user.getStatusName());
+        setTimeout(() => {
+
+            getMe().then(res => {
+                alert(res.ok);
+            });
+        })
         return;
     }
 
-    // Init search
     search();
-
-    // Grab class list
     updateClassList();
 }
 
