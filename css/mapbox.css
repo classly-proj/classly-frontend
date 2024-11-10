@@ -24,9 +24,70 @@ body {
   font-synthesis: none;
 }
 
+button {
+    cursor: pointer;
+}
+
 .hidden {
   display: none;
 }
+
+#dialog {
+    position: absolute;
+    z-index: 15;
+    width: 100vw;
+    height: 100vw;
+}
+
+.add-class-menu {
+    position: absolute;
+    top: 1rem;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    margin: auto;
+
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--bg-color-main);
+    filter: drop-shadow(0  2px 1px var(--black));
+    width: 80vw;
+    height: 50vh;
+    border-radius: 20px;
+
+    button {
+        border: 0;
+        background-color: transparent;
+    }
+
+    span {
+        display: flex;
+        justify-content: center;
+    }
+
+    input, select {
+        width: 30vw;
+        padding: 10px;
+        margin: 10px;
+        border-radius: 100px;
+        background-color: #ffffff;
+    }
+}
+
+@media (min-width: 600px) {
+    .add-class-menu {
+        width: 30rem;
+        height: 32rem;
+
+        input, select {
+            width: 12rem;
+        }
+    }
+}
+
+/* --------- */
 
 /* Style menu for MOBILE */
 .interface {
@@ -67,7 +128,7 @@ button img {
   }
 }
 
-.class-menu {
+#class-menu {
   display: flex;
   flex-direction: column;
   width: 80vw;
@@ -80,7 +141,28 @@ button img {
   button {
     background-color: var(--bg-color-alt);
     border: 0;
+    
+        span {
+            display: flex;
+        }
+    
+        button {
+            height: 2.5rem;
+            border-radius: 20px;
+            filter: drop-shadow(0  2px 1px var(--bg-color-main));
+        }
   }
+
+    span {
+        display: flex;
+    } 
+
+    button {
+        height: 2.5rem;
+        border-radius: 20px;
+        margin: 5px;
+        filter: drop-shadow(0  2px 1px var(--bg-color-main));
+    }
 }
 
 /* Style menu for desktop */
@@ -105,7 +187,7 @@ button img {
     } 
   }
 
-  .class-menu {
+  #class-menu {
     width: 18rem;
     height: 20rem;
   }
