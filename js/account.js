@@ -1,3 +1,4 @@
+import { takingMyClasses } from "./api/community.js";
 import * as userAPI from "./api/user.js";
 
 /**
@@ -99,4 +100,7 @@ window.switchForm = switchForm;
 window.submitForm = submitForm;
 
 
-window.api = userAPI;
+window.api = {
+    ...userAPI,
+    takingMyClasses
+};
