@@ -1,14 +1,13 @@
 import { addCourses, changeName, getMe, removeCourses } from "./api/user.js";
-import { getCourse, getCourseCRNS, getCourseQueriableFields, queryCourses } from "./api/course.js";
+import { getCourse, getCourseQueriableFields, queryCourses } from "./api/course.js";
 
-const body = document.querySelector("body");
 const dialog = document.getElementById("dialog");
 
 async function onPageLoad() {
     const user = await getMe();
 
     if (!user.ok) {
-        alert("NOT LOGGED IN");
+        alert("Error! " + user.getStatusName());
         return;
     }
 
@@ -17,7 +16,6 @@ async function onPageLoad() {
 
     // Grab class list
     updateClassList();
-    console.log(user);
 }
 
 async function updateClassList() {
