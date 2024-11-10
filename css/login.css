@@ -7,18 +7,26 @@
     --blue: #458588;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
+* {
+    
+    transition: all .3s ease-in-out;
+}
 
-  /* Font styling */
-  font-family: Arial, sans-serif;
-  -webkit-text-size-adjust: 100%;
-  -webkit-font-smoothing: antialiased;
-  -ms-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  font-synthesis: none;
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+
+    /* Font styling */
+    font-family: Arial, sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -ms-text-size-adjust: 100%;
+    -moz-osx-font-smoothing: grayscale;
+    font-synthesis: none;
+
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 main {
@@ -29,9 +37,17 @@ main {
 
     width: 100vw;
     height: 100vh;
-    background-color: var(--bg-color-main);
+    background-image: url("/img/unh.png");
+    background-size: cover;
+    background-repeat: no-repeat;
 
     animation: fadeOnLoad 1s;
+    transition: all .3s ease-in-out;
+}
+
+main h1 {
+    color: #ffffff;
+    font-size: 4vmin;
 }
 
 @keyframes fadeOnLoad {
@@ -53,8 +69,9 @@ form {
     width: 80vw;
     padding-top: 50px;
     padding-bottom: 50px;
-    background-color: var(--bg-color-alt);
+    background-color: rgba(255, 255, 255, .75);
     border-radius: 40px;
+    transition: all .3s ease-in-out;
 }
 
 @media (min-width: 600px) {
@@ -68,6 +85,13 @@ input {
     padding: 10px;
     margin: 10px;
     border-radius: 100px;
+    border: none;
+    transition: all .3s ease-in-out;
+}
+
+input:focus {
+    outline: none;
+    box-shadow: 0 0 10px #458588;
 }
 
 @media screen and (min-width: 600px) {
@@ -97,30 +121,41 @@ h1 {
 }
 
 .error {
-  background-color: #ffcccb;
+    background-color: #ffcccb;
 }
+
 #error {
-  color: #ff0000;
+    color: #ff0000;
 }
 
 #account-switch {
-    color: blue;
-    text-decoration: underline;
-    justify-self: flex-start;
+    border-radius: 1vmin;
+    color: #444444;
+    font-weight: 700;
+    padding: 8px 18px;
+    width: fit-content;
+    border: 0;
+    outline: none;
 
-    font-size: 14px;
-    padding: 5px;
+    text-align: center;
+    text-justify: center;
 }
 
-#account-switch:hover {
+#account-switch span {
+    color: #458588;
+    text-decoration: underline;
     cursor: pointer;
 }
 
+#account-switch span:hover {
+    filter: brightness(1.5);
+}
+
 #account-submit {
-    background-color: var(--blue);
+    background-image: linear-gradient(45deg, #458588, #64aaa8);
     box-shadow: var(--blue) 0 10px 20px -10px;
 
-    border-radius: 100px;
+    border-radius: 2vmin;
     color: #ffffff;
     cursor: pointer;
     font-weight: 700;

@@ -25,18 +25,8 @@ function switchForm(state) {
     // Update button html
     switchButton.innerHTML =
         state === "login"
-            ? "Have an account? Login here"
-            : "Don't have an account? Register now";
-
-    // Update login to account create event
-    switchButton.onclick =
-        state === "login"
-            ? function () {
-                switchForm("register");
-            }
-            : function () {
-                switchForm("login");
-            };
+            ? `Have an account? <span onclick="switchForm('register')">Login here</span>`
+            : `Don't have an account? <span  onclick="switchForm('login')">Register now</span>`;
 
     // Change form header
     formHeader.innerHTML = state === "login" ? "Create an Account:" : "Login:";
@@ -45,7 +35,6 @@ function switchForm(state) {
     confirmPassword.classList.toggle("hidden");
     firstName.classList.toggle("hidden");
     lastName.classList.toggle("hidden");
-
 
     // Clear confirm password
     confirmPassword.value = "";
