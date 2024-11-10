@@ -1,5 +1,5 @@
-import { changeName, getMe, removeCourses } from "./api/user.js";
-import { getCourse, getCourseCRNS } from "./api/course.js";
+import { addCourses, changeName, getMe, removeCourses } from "./api/user.js";
+import { getCourse, getCourseCRNS, getCourseQueriableFields, queryCourses } from "./api/course.js";
 
 const body = document.querySelector("body");
 const dialog = document.getElementById("dialog");
@@ -34,23 +34,29 @@ async function updateClassList() {
     }
 
     for (let i = 0; i < classes.length; i++) {
-        let course = await getCourse(classes[i]);
-        console.log(course);
+        const response = await getCourse(classes[i]);
+
+        if (!response.ok) {
+            console.log("Failed to get course: " + response.status);
+            continue;
+        }
+
+        const course = response.data;
 
         const span = document.createElement("span");
 
         {
             const button = document.createElement("button");
-            button.innerText = `${course.data.COURSE_DATA.SYVSCHD_SUBJ_CODE}-${course.data.COURSE_DATA.SYVSCHD_CRSE_NUMB}`;
+            button.innerText = `${course.COURSE_DATA.SYVSCHD_SUBJ_CODE}${course.COURSE_DATA.SYVSCHD_CRSE_NUMB} ${course.COURSE_DATA.SYVSCHD_CRSE_LONG_TITLE}`;
             span.appendChild(button);
         }
         {
             const button = document.createElement("button");
-            button.innerHTML = `<img src='./img/icons/minus.svg' alt=''>`;
+            button.innerHTML = `<img src="./img/icons/minus.svg" alt="">`;
             button.onclick = async () => {
-                const res = await removeCourses(course.data.TERM_CRN);
-                console.log(res);
-                updateClassList();
+                if ((await removeCourses(course.TERM_CRN)).ok) {
+                    updateClassList();
+                }
             };
             span.appendChild(button);
         }
@@ -69,16 +75,37 @@ function closeDialog() {
     dialog.classList.add("hidden");
 }
 
-async function search() {
-    const res = await fetch("http://127.0.0.1:8000/course/query/list");
-    if (res.status !== 200) {
-        return {
-            ok: false,
-            status: res.status,
+function updateSearchResults(results) {
+    const div = document.getElementById("search-results");
+
+    div.innerHTML = "";
+
+    results.forEach(course => {
+        const span = document.createElement("span");
+        span.innerText = `${course.COURSE_DATA.SYVSCHD_SUBJ_CODE}${course.COURSE_DATA.SYVSCHD_CRSE_NUMB} ${course.COURSE_DATA.SYVSCHD_CRSE_LONG_TITLE}`;
+        span.onclick = async () => {
+            const res = await addCourses(course.TERM_CRN);
+
+            if (!res.ok) {
+                alert("Failed to add course: " + res.getStatusName() + res.get);
+            }
+
+            updateClassList();
         };
+
+        div.appendChild(span);
+    });
+}
+
+async function search() {
+    const res = await getCourseQueriableFields();
+
+    if (!res.ok) {
+        alert("Failed to get course types: " + res.getStatusName());
+        return;
     }
 
-    const queriableTypes = await res.json();
+    const queriableTypes = res.data;
     const select = document.getElementById("course-select");
     const input = document.getElementById("course-search");
 
@@ -103,7 +130,6 @@ async function search() {
         let searchValue = lastChange;
 
         if (searchKey === "subject-number") {
-            // Grep a string any number of whitespace, and a number
             const match = lastChange.match(/([a-zA-Z]+)\s*(\d+)/);
             if (match) {
                 searchValue = `${match[1].toUpperCase()}-${match[2]}`;
@@ -113,68 +139,19 @@ async function search() {
             }
         }
 
-        const response = await fetch("http://127.0.0.1:8000/course/query", {
-            method: "POST",
-            headers: {
-                "Content-Type": "text/plain",
-            },
-            body: JSON.stringify({ key: searchKey, value: searchValue }),
-        });
+        const response = await queryCourses(searchKey, searchValue);
 
-        if (response.status !== 200) {
-            return {
-                ok: false,
-                status: response.status,
-            };
+        if (!response.ok) {
+            console.error("Failed to search courses:", response.status);
+            setTimeout(searchTick, 1000);
+            return;
         }
 
-        const courses = await response.json();
-        window.latestCourses = courses;
-        console.log(courses);
+        updateSearchResults(response.data);
         setTimeout(searchTick, 100);
     }
+
     searchTick();
-}
-
-async function updateCourseList(courses) {
-    const user = await getMe();
-
-    let classes = user.data.courses;
-    let classMenu = document.getElementById("class-menu");
-
-    classMenu.innerHTML = "";
-
-    if (!classes) {
-        console.log("hi");
-        return;
-    }
-
-    for (let i = 0; i < classes.length; i++) {
-        let course = await getCourse(classes[i]);
-        console.log(course);
-
-        const span = document.createElement("span");
-
-        {
-            const button = document.createElement("button");
-            button.innerText = `${course.data.COURSE_DATA.SYVSCHD_SUBJ_CODE}-${course.data.COURSE_DATA.SYVSCHD_CRSE_NUMB}`;
-            span.appendChild(button);
-        }
-        {
-            const button = document.createElement("button");
-            button.innerHTML = `<img src='./img/icons/minus.svg' alt=''>`;
-            button.onclick = async () => {
-                const res = await removeCourses(course.data.TERM_CRN);
-                console.log(res);
-                updateClassList();
-            };
-            span.appendChild(button);
-        }
-
-        classMenu.appendChild(span);
-
-        // classMenu.innerHTML = `<span><button>${course.data.COURSE_DATA.SYVSCHD_SUBJ_CODE}-${course.data.COURSE_DATA.SYVSCHD_CRSE_NUMB}</button><button onclick='removeClass("${classes[i]}")'><img src='./img/icons/minus.svg' alt=''></button></span>`;
-    }
 }
 
 async function openSettings() {

@@ -169,27 +169,29 @@ button img {
 }
 
 #settings {
-  position: absolute;
-  z-index: 15;
-  width: 100vw;
-  height: 100vw;
+    position: absolute;
+    z-index: 15;
+    width: 100vw;
+    height: 100vw;
 }
 
 .settings-input-field {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column; /* Stack vertically /
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* Stack vertically /
   gap: 20px; / Space between inputs */
-  width: 100%;
+    width: 100%;
 }
+
 .saveBtn {
-  background-color: #0056b3;
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  width: 30px;
-  padding: 20px;
+    background-color: #0056b3;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 30px;
+    padding: 20px;
 }
 
 /* Style menu for desktop */
@@ -240,4 +242,39 @@ button img {
 
 #buildmode:hover {
     background-color: #3223b8;
+}
+
+#search-results {
+    max-height: 32vmin;
+    overflow-y: auto;  
+    background-color: rgba(0, 0, 0, .15);
+    border-radius: 1vmin;
+    padding: 2vmin;
+}
+
+/* Search Results Scroll Bar */
+#search-results::-webkit-scrollbar {
+    width: 2vmin;
+}
+
+#search-results::-webkit-scrollbar-thumb {
+    background-color: var(--blue);
+    border-radius: 1vmin;
+}
+
+#search-results::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, .15);
+    border-radius: 1vmin;
+}
+
+#search-results span {
+    padding: 1vmin;
+    background-color: var(--bg-color-alt);
+    border-radius: .25vmin;
+    margin: 1vmin;
+    cursor: pointer;
+}
+
+#search-results span:hover {
+    background-color: var(--blue);
 }
