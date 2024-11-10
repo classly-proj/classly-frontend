@@ -241,8 +241,24 @@ button img {
 }
 
 #buildmode:hover {
-    background-color: #3223b8;
+  background-color: #3223b8;
 }
+
+#stopnav {
+    padding: 10px 20px;
+    background-color: red;
+    color: white;
+    border: none;
+    width: 5rem;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#stopnav:hover {
+  background-color: #b52222;
+}
+
 
 #search-results {
     max-height: 32vmin;

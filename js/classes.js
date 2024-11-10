@@ -1,5 +1,5 @@
 import { addCourses, changeName, getMe, removeCourses } from "./api/user.js";
-import { getCurrCoords, findEntrance, loadRoute } from "./mapbox.js";
+import { getCurrCoords, findEntrance, loadRoute, removeRoute } from "./mapbox.js";
 import {
     getCourse,
     getCourseQueriableFields,
@@ -69,12 +69,19 @@ async function updateClassList() {
                 if ((await removeCourses(course.TERM_CRN)).ok) {
                     updateClassList();
                 }
+                stopNav()
             };
             span.appendChild(button);
         }
 
         classMenu.appendChild(span);
     }
+}
+
+function stopNav() {
+    removeRoute()
+    sessionStorage.removeItem("building")
+    sessionStorage.removeItem("room")
 }
 
 function openDialog() {
