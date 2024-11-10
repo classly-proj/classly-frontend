@@ -243,3 +243,4 @@ window.closeSettings = closeSettings;
 window.saveSettings = saveSettings;
 window.updateClassList = updateClassList;
 window.removeCourses = removeCourses;
+window.removeRoute = removeRoute;
