@@ -1,5 +1,6 @@
 import { addCourses, changeName, getMe, removeCourses } from "./api/user.js";
-import { getCourse, getCourseQueriableFields, queryCourses } from "./api/course.js";
+import { getCourse, getCourseCRNS, getCourseQueriableFields, queryCourses } from "./api/course.js";
+import { getCurrCoords, findEntrance, loadRoute} from "./mapbox.js";
 
 const dialog = document.getElementById("dialog");
 
@@ -43,6 +44,7 @@ async function updateClassList() {
         }
 
         const course = response.data;
+        console.log(course)
 
         const span = document.createElement("span");
 
@@ -50,6 +52,11 @@ async function updateClassList() {
             const button = document.createElement("button");
             button.innerText = `${course.COURSE_DATA.SYVSCHD_SUBJ_CODE}${course.COURSE_DATA.SYVSCHD_CRSE_NUMB} ${course.COURSE_DATA.SYVSCHD_CRSE_LONG_TITLE}`;
             span.appendChild(button);
+            button.onclick = async() => {
+                const goalCoords = await findEntrance(course.COURSE_DATA.MEETINGS[0].BUILDING)
+                console.log(goalCoords)
+                await loadRoute(getCurrCoords(), goalCoords)
+            }
         }
         {
             const button = document.createElement("button");
@@ -67,6 +74,7 @@ async function updateClassList() {
         // classMenu.innerHTML = `<span><button>${course.data.COURSE_DATA.SYVSCHD_SUBJ_CODE}-${course.data.COURSE_DATA.SYVSCHD_CRSE_NUMB}</button><button onclick='removeClass("${classes[i]}")'><img src='./img/icons/minus.svg' alt=''></button></span>`;
     }
 }
+
 
 function openDialog() {
     dialog.classList.remove("hidden");

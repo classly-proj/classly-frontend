@@ -86,7 +86,7 @@ function startWatchingLocation() {
     }
 }
 
-async function loadRoute(start, end) {
+export async function loadRoute(start, end) {
     const resp = await loadDirections(start[0], start[1], end[0], end[1]);
 
     if (!resp.ok) {
@@ -110,30 +110,23 @@ async function loadRoute(start, end) {
         map.getSource('route').setData(geojson);
     } else {
         map.addLayer({
-            id: "location",
-            type: "circle",
-            source: {
-                type: "geojson",
-                data: {
-                    type: "FeatureCollection",
-                    features: [
-                        {
-                            type: "Feature",
-                            properties: {},
-                            geometry: {
-                                type: "Point",
-                                coordinates: coords,
-                            },
-                        },
-                    ],
-                },
-            },
-            paint: {
-                "circle-radius": 10,
-                "circle-color": "#3887be",
-            },
+          id: 'route',
+          type: 'line',
+          source: {
+            type: 'geojson',
+            data: geojson
+          },
+          layout: {
+            'line-join': 'round',
+            'line-cap': 'round'
+          },
+          paint: {
+            'line-color': '#3887be',
+            'line-width': 5,
+            'line-opacity': 0.75
+          }
         });
-    }
+      }
 }
 
 async function loadBuildings() {
@@ -141,9 +134,9 @@ async function loadBuildings() {
         const response = await fetch('./data/buildings.json');
         const buildings = await response.json();
         const allFeatures = [];
-        for (const floor in buildings.paul) {
-            if (buildings.paul.hasOwnProperty(floor)) {
-                buildings.paul[floor].forEach((entry) => {
+        for (const floor in buildings.PCBE) {
+            if (buildings.PCBE.hasOwnProperty(floor)) {
+                buildings.PCBE[floor].forEach((entry) => {
                     allFeatures.push({
                         type: 'Feature',
                         properties: {
@@ -191,14 +184,24 @@ async function loadBuildings() {
             map.getCanvas().style.cursor = '';
         });
 
+        return buildings;
+
     } catch (error) {
         console.error('Error loading buildings:', error);
     }
-
 }
+
+export function getCurrCoords() {
+  return currCoords;
+}
+
+export async function findEntrance(building) {
+  const buildings = await loadBuildings()
+  return buildings[building].ground[0].coordinates;
+}
+
 
 map.on('load', async function () {
     startWatchingLocation();
-    loadBuildings()
 });
 
