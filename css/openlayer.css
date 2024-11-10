@@ -6,7 +6,7 @@ height: 100vh;
 #nav {
 position: absolute;
 bottom: 30px;
-left: 10 px;
+left: 10px;
 z-index: 1000;
 padding: 10px 20px;
 background-color: #3a4ad5;
@@ -24,7 +24,7 @@ background-color: #3223b8;
 #buildmode {
 position: absolute;
 bottom: 30px;
-right: 50%;
+right: 10px;
 z-index: 1000;
 padding: 10px 20px;
 background-color: #3a4ad5;
