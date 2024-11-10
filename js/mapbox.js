@@ -26,6 +26,7 @@ const map = new mapboxgl.Map({
 
 let watchId = null;
 let currCoords = null;
+let endCoords = null;
 
 function initLocationLayer(coords) {
     map.addLayer({
@@ -76,6 +77,9 @@ function startWatchingLocation() {
             currCoords = [longitude, latitude];
             if (map.getLayer('location')) {
                 updateLocation(currCoords);
+                if (endCoords) {
+                    loadRoute(currCoords, endCoords)
+                }
             } else {
                 initLocationLayer(currCoords);
             }
@@ -92,7 +96,6 @@ function startWatchingLocation() {
 }
 
 export async function loadRoute(start, end) {
-    removeRoute()
     const resp = await loadDirections(start[0], start[1], end[0], end[1]);
 
     if (!resp.ok) {
@@ -115,6 +118,7 @@ export async function loadRoute(start, end) {
     if (map.getSource('route')) {
         map.getSource('route').setData(geojson);
     } else {
+        endCoords = end;
         map.addLayer({
           id: 'route',
           type: 'line',
@@ -136,6 +140,7 @@ export async function loadRoute(start, end) {
 }
 
 export function removeRoute() {
+    endCoords = null;
   if (map.getLayer('route')) {
       map.removeLayer('route');
       if (map.getSource('route')) {
