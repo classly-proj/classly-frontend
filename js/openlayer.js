@@ -29,8 +29,8 @@ slctcourse = {
     }
 }
 
-// room = parseInt(slctcourse["COURSE_DATA"]["MEETINGS"][0]["ROOM"])
-room = "215"
+room = String(slctcourse["COURSE_DATA"]["MEETINGS"][0]["ROOM"])
+// room = "215"
 var map = null;
 
 document.getElementById('buildmode').addEventListener('click', function(){
@@ -50,6 +50,13 @@ map = new ol.Map({
 ground = {
     "waypoints": {
         "entrance": [180, 450],
+        "entrance1": [340, 400],
+        "ex1": [370, 400],
+        "ex2": [370, 450],
+        "entrance2": [500, 360],
+        "ex3": [500, 450],
+        "entrance3": [723, 5],
+
         "waypnt1": [723, 450],
         "stairs1": [586, 450],
         "stairs": [586, 500],
@@ -71,6 +78,14 @@ ground = {
     },
     "paths": {
         "entrance": ["intera"],
+        "entrance1": ["ex1"],
+        "ex1": ["entrance2", "ex2"],
+        "ex2": ["ex1", "intera", "interb"],
+
+        "entrance2": ["ex3"],
+        "ex3": ["interb", "intera", "entrance2"],
+        "entrance3": ["interf"],
+
         "waypnt1": ["interd", "interc", "elevator1", "G75"],
         "elevator1": ["waypnt1", "stairs1", "elevator"],
         "elevator": ["elevator1"],
@@ -86,7 +101,7 @@ ground = {
         "G85": ["interd"],
         "intere": ["interf", "interd", "classe"],
         "classe": ["intere"],
-        "interf": ["intere", "G93"],
+        "interf": ["intere", "G93", "entrance3"],
         "G93": ["interf"],
         "G75": ["waypnt1"]
     }
