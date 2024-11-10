@@ -39,7 +39,49 @@ button {
     height: 100vw;
 }
 
-.add-class-menu {
+#settings {
+    position: absolute;
+    z-index: 15;
+    width: 100vw;
+    height: 100vw;
+}
+
+.settings-input-field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; /* Stack vertically */
+  gap: 20px; /* Space between inputs */
+  width: 100%;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%; 
+  max-width: 300px;
+}
+
+.input-wrapper label {
+  font-size: 16px; 
+  color: #333; 
+  margin-bottom: 5px; 
+}
+
+.input-wrapper input {
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid #ccc; 
+  border-radius: 8px;
+  outline: none; 
+}
+
+.input-wrapper input:focus {
+  border-color: #0056b3;
+}
+
+
+.menu {
     position: absolute;
     top: 1rem;
     left: 0;
@@ -53,7 +95,7 @@ button {
 
     background-color: var(--bg-color-main);
     filter: drop-shadow(0  2px 1px var(--black));
-    width: 90vw;
+    width: 70vh;
     height: 50vh;
     border-radius: 20px;
 

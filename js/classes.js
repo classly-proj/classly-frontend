@@ -79,6 +79,7 @@ async function search() {
 
 const body = document.querySelector("body");
 const dialog = document.getElementById("dialog");
+const settings = document.getElementById("settings")
 
 async function onPageLoad() {
     const user = await getMe();
@@ -108,6 +109,18 @@ function openDialog() {
 
 function closeDialog() {
     dialog.classList.add("hidden");
+}
+
+function openSettings() {
+    settings.classList.remove("hidden");
+}
+
+function closeSettings() {
+    settings.classList.add("hidden");
+}
+
+function saveSettings() {
+    
 }
 
 async function removeClass() {
@@ -162,4 +175,7 @@ async function getUser() {
 window.onload = onPageLoad;
 window.openDialog = openDialog;
 window.closeDialog = closeDialog;
+window.openSettings = openSettings;
+window.closeSettings = closeSettings;
+window.saveSettigs = saveSettings;
 window.search = search;
