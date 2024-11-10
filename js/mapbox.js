@@ -1,22 +1,23 @@
 import { loadDirections } from "./api/mapbox.js";
 
 const bounds = [
-    [-70.956425, 43.118725],
-    [-70.894926, 43.154229],
+  [-70.956425, 43.118725], 
+  [-70.894926, 43.154229],
 ];
 
-document.getElementById('buildmode').addEventListener('click', function(){
-  window.location.replace("./openlayer.html");
-})
-mapboxgl.accessToken = "pk.eyJ1IjoiZHNjYXJiMjEiLCJhIjoiY2x0cnR3cWlqMGtmZzJucDU2eDR2eWpyMCJ9.nfk8bnbhwkUmEHDhKZv3zA";
+mapboxgl.accessToken =
+    "pk.eyJ1IjoiZHNjYXJiMjEiLCJhIjoiY2x0cnR3cWlqMGtmZzJucDU2eDR2eWpyMCJ9.nfk8bnbhwkUmEHDhKZv3zA";
 
+document.getElementById("buildmode").addEventListener("click", function () {
+    window.location.replace("./openlayer.html");
+});
 
 const map = new mapboxgl.Map({
-    container: "mapbox",
-    style: "mapbox://styles/mapbox/streets-v12",
-    zoom: 12,
-    center: [-70.9256, 43.13401],
-    maxBounds: bounds,
+  container: "mapbox", 
+  style: "mapbox://styles/mapbox/streets-v12",
+  zoom: 12, 
+  center: [-70.92560, 43.13401],
+  maxBounds: bounds, 
 });
 
 let watchId = null;
@@ -87,8 +88,7 @@ function startWatchingLocation() {
 }
 
 function stopWatchingLocation() {
-    if (watchId !
-        null) {
+    if (watchId !== null) {
         navigator.geolocation.clearWatch(watchId);
         watchId = null;
     }
@@ -110,8 +110,9 @@ async function loadRoute(start, end) {
     }
   };
 
-
-function initLocationLayer(coords) {
+  if (map.getSource('route')) {
+    map.getSource('route').setData(geojson);
+  } else {
     map.addLayer({
         id: "location",
         type: "circle",
