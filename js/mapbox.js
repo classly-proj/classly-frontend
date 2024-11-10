@@ -6,6 +6,10 @@ const bounds = [
   [-70.894926, 43.154229],
 ];
 
+document.getElementById('buildmode').addEventListener('click', function(){
+  window.location.replace("./openlayer.html");
+})
+
 const map = new mapboxgl.Map({
   container: "mapbox", 
   style: "mapbox://styles/mapbox/streets-v12",
