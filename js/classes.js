@@ -1,5 +1,5 @@
 import { addCourses, changeName, getMe, removeCourses } from "./api/user.js";
-import { getCourse, getCourseCRNS } from "./api/course.js";
+import { getCourse, getCourseCRNS, getCourseQueriableFields } from "./api/course.js";
 
 const body = document.querySelector("body");
 const dialog = document.getElementById("dialog");
@@ -98,15 +98,14 @@ function updateSearchResults(results) {
 }
 
 async function search() {
-    const res = await fetch("http://127.0.0.1:8000/course/query/list");
-    if (res.status !== 200) {
-        return {
-            ok: false,
-            status: res.status,
-        };
+    const res = await getCourseQueriableFields();
+
+    if (!res.ok) {
+        alert("Failed to get course types: " + res.getStatusName());
+        return;
     }
 
-    const queriableTypes = await res.json();
+    const queriableTypes = res.data;
     const select = document.getElementById("course-select");
     const input = document.getElementById("course-search");
 
