@@ -24,10 +24,6 @@ body {
   font-synthesis: none;
 }
 
-button {
-    cursor: pointer;
-}
-
 .hidden {
   display: none;
 }
@@ -180,27 +176,7 @@ button img {
   button {
     background-color: var(--bg-color-alt);
     border: 0;
-    
-        span {
-            display: flex;
-        }
-    
-        button {
-            height: 2.5rem;
-            border-radius: 20px;
-            filter: drop-shadow(0  2px 1px var(--bg-color-main));
-        }
   }
-
-    span {
-        display: flex;
-    } 
-
-    button {
-        height: 2.5rem;
-        border-radius: 20px;
-        filter: drop-shadow(0  2px 1px var(--bg-color-main));
-    }
 }
 
 /* Style menu for desktop */
@@ -241,7 +217,7 @@ button img {
 #buildmode {
   position: absolute;
   bottom: 30px;
-  right: 50%;
+  right: 10px;
   z-index: 1000;
   padding: 10px 20px;
   background-color: #3a4ad5;
