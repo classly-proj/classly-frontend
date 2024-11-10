@@ -1,4 +1,4 @@
-import { getMe, addCourses, removeCourses } from "./api/user.js";
+import { changeName, getMe, addCourses, removeCourses } from "./api/user.js";
 import { getCourseCRNS } from "./api/course.js";
 
 async function search() {
@@ -111,7 +111,8 @@ function closeDialog() {
     dialog.classList.add("hidden");
 }
 
-function openSettings() {
+async function openSettings() {
+    await updateSettings()
     settings.classList.remove("hidden");
 }
 
@@ -119,9 +120,38 @@ function closeSettings() {
     settings.classList.add("hidden");
 }
 
-function saveSettings() {
-    
+async function updateSettings() {
+    try {
+        const response = await getMe();  
+        const data = response.data;      
+
+        if (response.status === 200 && data) {
+            const firstNameInput = document.getElementById('settings-firstName');
+            if (firstNameInput) firstNameInput.value = data.first || 'Enter first name';
+
+            const lastNameInput = document.getElementById('settings-lastName');
+            if (lastNameInput) lastNameInput.value = data.last || 'Enter last name';
+        } else {
+            console.error('Failed: ', response.status);
+        }
+    } catch (error) {
+        console.error('Error getting user data:', error);
+    }
 }
+
+async function saveSettings() {
+    const firstName = document.getElementById('settings-firstName').value;
+    const lastName = document.getElementById('settings-lastName').value;
+
+    const response = await changeName(firstName, lastName);
+
+    if (response.status === 200) {
+        alert('Name changed successfully!');
+    } else {
+        alert('Failed to change name. Status code: ' + response.status);
+    }
+}
+
 
 async function removeClass() {
     const res = await fetch("/user/removeclass", {
@@ -177,5 +207,6 @@ window.openDialog = openDialog;
 window.closeDialog = closeDialog;
 window.openSettings = openSettings;
 window.closeSettings = closeSettings;
-window.saveSettigs = saveSettings;
+window.updateSettings = updateSettings;
+window.saveSettings = saveSettings;
 window.search = search;

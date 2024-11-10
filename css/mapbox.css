@@ -68,6 +68,15 @@ button {
   margin-bottom: 5px; 
 }
 
+.saveBtn {
+  background-color: #0056b3;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: 30px;
+  padding: 20px;
+}
+
 .input-wrapper input {
   padding: 10px;
   font-size: 16px;
@@ -88,7 +97,7 @@ button {
     right: 0;
     z-index: 20;
     margin: auto;
-
+    align-items: center;
 
     display: flex;
     flex-direction: column;
