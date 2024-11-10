@@ -8,12 +8,6 @@ async function onPageLoad() {
 
     if (!user.ok) {
         alert("Error! " + user.getStatusName());
-        setTimeout(() => {
-
-            getMe().then(res => {
-                alert(res.ok);
-            });
-        }, 5000);
         return;
     }
 
