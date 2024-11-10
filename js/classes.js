@@ -13,7 +13,7 @@ async function onPageLoad() {
             getMe().then(res => {
                 alert(res.ok);
             });
-        })
+        }, 5000);
         return;
     }
 
