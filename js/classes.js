@@ -42,7 +42,7 @@ async function updateClassList() {
 
         {
             const button = document.createElement("button");
-            button.innerText = `${course.COURSE_DATA.SYVSCHD_SUBJ_CODE}${course.COURSE_DATA.SYVSCHD_CRSE_NUMB} ${course.COURSE_DATA.SYVSCHD_CRSE_LONG_TITLE}`;
+            button.innerText = `(${course.COURSE_DATA.SYVSCHD_SEQ_NUMB}) ${course.COURSE_DATA.SYVSCHD_SUBJ_CODE}${course.COURSE_DATA.SYVSCHD_CRSE_NUMB} ${course.COURSE_DATA.SYVSCHD_CRSE_LONG_TITLE}`;
             span.appendChild(button);
         }
         {
@@ -57,8 +57,6 @@ async function updateClassList() {
         }
 
         classMenu.appendChild(span);
-
-        // classMenu.innerHTML = `<span><button>${course.data.COURSE_DATA.SYVSCHD_SUBJ_CODE}-${course.data.COURSE_DATA.SYVSCHD_CRSE_NUMB}</button><button onclick='removeClass("${classes[i]}")'><img src='./img/icons/minus.svg' alt=''></button></span>`;
     }
 }
 
@@ -77,7 +75,7 @@ function updateSearchResults(results) {
 
     results.forEach(course => {
         const span = document.createElement("span");
-        span.innerText = `${course.COURSE_DATA.SYVSCHD_SUBJ_CODE}${course.COURSE_DATA.SYVSCHD_CRSE_NUMB} ${course.COURSE_DATA.SYVSCHD_CRSE_LONG_TITLE}`;
+        span.innerText = `(${course.COURSE_DATA.SYVSCHD_SEQ_NUMB}) ${course.COURSE_DATA.SYVSCHD_SUBJ_CODE}${course.COURSE_DATA.SYVSCHD_CRSE_NUMB} ${course.COURSE_DATA.SYVSCHD_CRSE_LONG_TITLE}`;
         span.onclick = async () => {
             const res = await addCourses(course.TERM_CRN);
 
