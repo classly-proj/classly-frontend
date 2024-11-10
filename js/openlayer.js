@@ -159,7 +159,7 @@ if (build == "PCBE") {
         document.getElementById('nav').style.visibility = "hidden";
         createMap(ground, gurl, "entrance", room)
     } else if (room[0] == "1") {
-        mapped = createMap(ground, gurl, "entrance", "stairs")
+        const mapped = createMap(ground, gurl, "entrance", "stairs")
         document.getElementById('nav').style.visibility = "visible";
         document.getElementById('nav').addEventListener('click', function () {
             mapped.getLayers().clear();
