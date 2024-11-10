@@ -109,43 +109,6 @@ function openDialog() {
 
 function closeDialog() {
     dialog.classList.add("hidden");
-// // Run on load
-import { getMe } from "./api/user.js";
-
-let classes = [""];
-
-console.log(getMe());
-
-//
-if (classes != [""]) {
-  console.log("hi");
-} else {
-  console.log("no");
-}
-
-const body = document.querySelector("body");
-
-////////////////
-
-async function addClass(crn) {
-  const res = await fetch("/user/addclass", {
-    method: "POST",
-    headers: {
-      "Content-Type": "text/plain",
-    },
-    body: JSON.stringify([crn]),
-  });
-
-  if (res.status !== 200) {
-    return {
-      ok: false,
-      status: res.status,
-    };
-  }
-
-  return {
-    ok: true,
-  };
 }
 
 async function openSettings() {
