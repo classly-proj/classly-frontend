@@ -86,13 +86,6 @@ function startWatchingLocation() {
     }
 }
 
-function stopWatchingLocation() {
-    if (watchId !== null) {
-        navigator.geolocation.clearWatch(watchId);
-        watchId = null;
-    }
-}
-
 async function loadRoute(start, end) {
     const resp = await loadDirections(start[0], start[1], end[0], end[1]);
 
