@@ -1,42 +1,15 @@
-let slctcourse = {
-    "TERM_CRN": "20241012980",
-    "COURSE_DATA": {
-        "SYVSCHD_CRSE_LONG_TITLE": "Survey of Accounting",
-        "SYVSCHD_SUBJ_CODE": "ACC",
-        "SYVSCHD_CRSE_NUMB": "501",
-        "SYVSCHD_CRSE_DESC": "Survey of basic accounting concepts, including exposure to financial statements, accounting processes, decision making, and budgeting. This course is designed for students pursuing a Business Administration minor, a minor in Accounting and Financial Information or exploring basic accounting. Not for Paul College Business Administration students.",
-        "INSTRUCTORS": [
-            {
-                "LAST_NAME": "Robinson",
-                "FIRST_NAME": "Ian",
-                "EMAIL": "Ian.Robinson@unh.edu"
-            }
-        ],
-        "MEETINGS": [
-            {
-                "DAYS": "T",
-                "BUILDING": "PCBE",
-                "ROOM": "185",
-                "TIME": "5:10pm - 8:00pm"
-            },
-            {
-                "DAYS": "W",
-                "BUILDING": "PCBE",
-                "ROOM": "185",
-                "TIME": "6:00pm - 8:00pm"
-            }
-        ]
-    }
-}
-
-room = String(slctcourse["COURSE_DATA"]["MEETINGS"][0]["ROOM"])
-build = String(slctcourse["COURSE_DATA"]["MEETINGS"][0]["BUILDING"])
-// room = "215"
 var map = null;
+const build = sessionStorage.getItem('building');
+const room = sessionStorage.getItem('room');
 
-document.getElementById('buildmode').addEventListener('click', function () {
-    window.location.replace("./mapbox.html");
-})
+document.addEventListener('DOMContentLoaded', function() {
+    const mapModeButton = document.getElementById('mapmode');
+    if (mapModeButton) {
+        mapModeButton.addEventListener('click', function() {
+            window.location.href = './mapbox.html';
+        });
+    }
+  });
 
 const imageExtent = [0, 0, 1000, 647];
 map = new ol.Map({
@@ -48,7 +21,7 @@ map = new ol.Map({
     }),
 });
 
-ground = {
+const ground = {
     "waypoints": {
         "entrance": [180, 450],
         "waypnt1": [723, 450],
@@ -93,7 +66,7 @@ ground = {
     }
 }
 
-first = {
+const first = {
     "waypoints": {
         "waypnt1": [830, 445],
         "stairs1": [690, 445],
@@ -138,7 +111,7 @@ first = {
     }
 }
 
-second = {
+const second = {
     "waypoints": {
         "waypnt1": [830, 445],
         "stairs1": [690, 445],
@@ -175,16 +148,13 @@ second = {
     }
 }
 
-gurl = './img/PaulCollegeGround.jpg'
+const gurl = './img/PaulCollegeGround.jpg'
 
-furl = './img/PaulCollegeFirst.jpg'
+const furl = './img/PaulCollegeFirst.jpg'
 
-surl = './img/PaulCollegeSecond.jpg'
-
+const surl = './img/PaulCollegeSecond.jpg'
 
 if (build == "PCBE") {
-
-
     if (room[0] == "G") {
         document.getElementById('nav').style.visibility = "hidden";
         createMap(ground, gurl, "entrance", room)
@@ -196,8 +166,8 @@ if (build == "PCBE") {
             createMap(first, furl, "stairs", room)
         })
     } else if (room[0] == "2") {
-        num = 1
-        mapped = createMap(ground, gurl, "entrance", "stairs")
+        var num = 1
+        const mapped = createMap(ground, gurl, "entrance", "stairs")
         document.getElementById('nav').style.visibility = "visible";
         document.getElementById('nav').addEventListener('click', function () {
             if (num == 1) {
@@ -213,8 +183,6 @@ if (build == "PCBE") {
 } else {
     document.getElementById('deny').style.display = 'block';
 }
-
-
 
 
 
@@ -320,3 +288,4 @@ function createMap(floor, imgurl, start, dest) {
 
     return map;
 }
+
