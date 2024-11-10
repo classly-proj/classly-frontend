@@ -1,137 +1,221 @@
 :root {
-  --bg-color-main: #E0E0E0;
-  --bg-color-alt: #f1f1f1;
-  --black: #1e1e1e;
+    --bg-color-main: #E0E0E0;
+    --bg-color-alt: #f1f1f1;
+    --black: #1e1e1e;
 
-  --blue: #458588;
+    --blue: #458588;
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 
-  /* Font styling */
-  font-family: Arial, sans-serif;
-  -webkit-text-size-adjust: 100%;
-  -webkit-font-smoothing: antialiased;
-  -ms-text-size-adjust: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  font-synthesis: none;
+    /* Font styling */
+    font-family: Arial, sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -ms-text-size-adjust: 100%;
+    -moz-osx-font-smoothing: grayscale;
+    font-synthesis: none;
+}
+
+button {
+    cursor: pointer;
 }
 
 .hidden {
-  display: none;
+    display: none;
 }
+
+#dialog {
+    position: absolute;
+    z-index: 15;
+    width: 100vw;
+    height: 100vw;
+}
+
+.add-class-menu {
+    position: absolute;
+    top: 1rem;
+    left: 0;
+    right: 0;
+    z-index: 20;
+    margin: auto;
+
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--bg-color-main);
+    filter: drop-shadow(0 2px 1px var(--black));
+    width: 80vw;
+    height: 50vh;
+    border-radius: 20px;
+
+    button {
+        border: 0;
+        background-color: transparent;
+    }
+
+    span {
+        display: flex;
+        justify-content: center;
+    }
+
+    input,
+    select {
+        width: 30vw;
+        padding: 10px;
+        margin: 10px;
+        border-radius: 100px;
+        background-color: #ffffff;
+    }
+}
+
+@media (min-width: 600px) {
+    .add-class-menu {
+        width: 30rem;
+        height: 32rem;
+
+        input,
+        select {
+            width: 12rem;
+        }
+    }
+}
+
+/* --------- */
 
 /* Style menu for MOBILE */
 .interface {
-  position: absolute;
-  z-index: 10;
-  left: 0; 
-  right: 0;
-  bottom: 1rem; 
-  margin: auto; 
+    position: absolute;
+    z-index: 10;
+    left: 0;
+    right: 0;
+    bottom: 1rem;
+    margin: auto;
 
-  display: flex;
-  flex-direction: column;
-  width: 80vw;
+    display: flex;
+    flex-direction: column;
+    width: 80vw;
 }
 
 
 button img {
-  width: 4vh;
-  height: 4vh;
+    width: 4vh;
+    height: 4vh;
 }
 
 .menu-buttons {
-  display: flex;
-
-  button {
-    background-color: var(--bg-color-main);
-    border: 0;
-    border-radius: 100%;
-    width: 6vh;
-    height: 6vh;
-    margin: 5px;
-    border-radius: 20px;
-    filter: drop-shadow(0  2px 1px var(--black));
-
     display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+
+    button {
+        background-color: var(--bg-color-main);
+        border: 0;
+        border-radius: 100%;
+        width: 6vh;
+        height: 6vh;
+        margin: 5px;
+        border-radius: 20px;
+        filter: drop-shadow(0 2px 1px var(--black));
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
-.class-menu {
-  display: flex;
-  flex-direction: column;
-  width: 80vw;
-  height: 30vh;
-  padding: 20px;
-  background-color: var(--bg-color-main);
-  border-radius: 20px;
-  filter: drop-shadow(0  2px 1px var(--black));
+#class-menu {
+    display: flex;
+    flex-direction: column;
+    width: 80vw;
+    height: 30vh;
+    padding: 20px;
+    background-color: var(--bg-color-main);
+    border-radius: 20px;
+    filter: drop-shadow(0 2px 1px var(--black));
 
-  button {
-    background-color: var(--bg-color-alt);
-    border: 0;
-  }
+    button {
+        background-color: var(--bg-color-alt);
+        border: 0;
+
+        span {
+            display: flex;
+        }
+
+        button {
+            height: 2.5rem;
+            border-radius: 20px;
+            filter: drop-shadow(0 2px 1px var(--bg-color-main));
+        }
+    }
+
+    span {
+        display: flex;
+    }
+
+    button {
+        height: 2.5rem;
+        border-radius: 20px;
+        margin: 5px;
+        filter: drop-shadow(0 2px 1px var(--bg-color-main));
+    }
 }
 
 /* Style menu for desktop */
 @media (min-width: 600px) {
-  .interface {
-    left: 1rem; 
-    bottom: 1rem;
-    margin: 0;
+    .interface {
+        left: 1rem;
+        bottom: 1rem;
+        margin: 0;
 
-    width: 24em;
-  }
+        width: 24em;
+    }
 
-  button img {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
+    button img {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
 
-  .menu-buttons {  
-    button {
-      width: 2.5rem;
-      height: 2.5rem;
-    } 
-  }
+    .menu-buttons {
+        button {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+    }
 
-  .class-menu {
-    width: 18rem;
-    height: 20rem;
-  }
+    #class-menu {
+        width: 18rem;
+        height: 20rem;
+    }
 }
 
-#mapbox { 
-  position: absolute; 
-  top: 0; 
-  bottom: 0; 
-  width: 100%; 
+#mapbox {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
 }
 
 #buildmode {
-  position: absolute;
-  bottom: 30px;
-  right: 10px;
-  z-index: 1000;
-  padding: 10px 20px;
-  background-color: #3a4ad5;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  }
-  
-  #buildmode:hover {
-  background-color: #3223b8;
-  }
+    position: absolute;
+    bottom: 30px;
+    right: 50%;
+    z-index: 1000;
+    padding: 10px 20px;
+    background-color: #3a4ad5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#buildmode:hover {
+    background-color: #3223b8;
+}

@@ -1,4 +1,4 @@
-slctcourse = {
+let slctcourse = {
     "TERM_CRN": "20241012980",
     "COURSE_DATA": {
         "SYVSCHD_CRSE_LONG_TITLE": "Survey of Accounting",
@@ -34,7 +34,7 @@ build = String(slctcourse["COURSE_DATA"]["MEETINGS"][0]["BUILDING"])
 // room = "215"
 var map = null;
 
-document.getElementById('buildmode').addEventListener('click', function(){
+document.getElementById('buildmode').addEventListener('click', function () {
     window.location.replace("./mapbox.html");
 })
 
@@ -43,8 +43,8 @@ map = new ol.Map({
     target: 'map',
     layers: [],
     view: new ol.View({
-    center: ol.extent.getCenter(imageExtent), 
-    zoom: 20,
+        center: ol.extent.getCenter(imageExtent),
+        zoom: 20,
     }),
 });
 
@@ -185,31 +185,31 @@ surl = './img/PaulCollegeSecond.jpg'
 if (build == "PCBE") {
 
 
-if (room[0] == "G") {
-    document.getElementById('nav').style.visibility = "hidden";
-    createMap(ground, gurl, "entrance", room)
-} else if  (room[0] == "1") {
-    mapped = createMap(ground, gurl, "entrance", "stairs")
-    document.getElementById('nav').style.visibility = "visible";
-    document.getElementById('nav').addEventListener('click', function(){
-        mapped.getLayers().clear();
-        createMap(first, furl, "stairs", room)
-    })
-} else if (room[0] == "2"){
-    num = 1
-    mapped = createMap(ground, gurl, "entrance", "stairs")
-    document.getElementById('nav').style.visibility = "visible";
-    document.getElementById('nav').addEventListener('click', function(){
-        if (num == 1){
+    if (room[0] == "G") {
+        document.getElementById('nav').style.visibility = "hidden";
+        createMap(ground, gurl, "entrance", room)
+    } else if (room[0] == "1") {
+        mapped = createMap(ground, gurl, "entrance", "stairs")
+        document.getElementById('nav').style.visibility = "visible";
+        document.getElementById('nav').addEventListener('click', function () {
             mapped.getLayers().clear();
             createMap(first, furl, "stairs", room)
-        } else {
-            mapped.getLayers().clear();
-            createMap(second, surl, "stairs", room)
-        }
-        num = num +1
-    })
-}
+        })
+    } else if (room[0] == "2") {
+        num = 1
+        mapped = createMap(ground, gurl, "entrance", "stairs")
+        document.getElementById('nav').style.visibility = "visible";
+        document.getElementById('nav').addEventListener('click', function () {
+            if (num == 1) {
+                mapped.getLayers().clear();
+                createMap(first, furl, "stairs", room)
+            } else {
+                mapped.getLayers().clear();
+                createMap(second, surl, "stairs", room)
+            }
+            num = num + 1
+        })
+    }
 } else {
     document.getElementById('deny').style.display = 'block';
 }
@@ -230,10 +230,10 @@ function findPath(start, end, paths) {
         if (node === end) return path;
 
         for (const neighbor of paths[node] || []) {
-        if (!visited.has(neighbor)) {
-            visited.add(neighbor);
-            queue.push([...path, neighbor]);
-        }
+            if (!visited.has(neighbor)) {
+                visited.add(neighbor);
+                queue.push([...path, neighbor]);
+            }
         }
     }
     return null;
@@ -242,81 +242,81 @@ function findPath(start, end, paths) {
 
 function drawPath(map, path, waypoints) {
     let pathLayer = null;
-if (pathLayer) {
-    map.removeLayer(pathLayer);
-}
-const coordinates = path.map(point => waypoints[point]);
-const line = new ol.geom.LineString(coordinates);
-const routeFeature = new ol.Feature({
-    geometry: line,
-});
-routeFeature.setStyle(new ol.style.Style({
-    stroke: new ol.style.Stroke({
-        color: '#ff0000',
-        width: 3,
-        lineDash: [10, 10] 
-    }),
-}));
+    if (pathLayer) {
+        map.removeLayer(pathLayer);
+    }
+    const coordinates = path.map(point => waypoints[point]);
+    const line = new ol.geom.LineString(coordinates);
+    const routeFeature = new ol.Feature({
+        geometry: line,
+    });
+    routeFeature.setStyle(new ol.style.Style({
+        stroke: new ol.style.Stroke({
+            color: '#ff0000',
+            width: 3,
+            lineDash: [10, 10]
+        }),
+    }));
 
-const vectorSource = new ol.source.Vector({
-    features: [routeFeature],
-});
-
-if (coordinates.length > 1) {
-    const end = coordinates[coordinates.length - 1];
-
-    const xFeature = new ol.Feature({
-        geometry: new ol.geom.Point(end),
+    const vectorSource = new ol.source.Vector({
+        features: [routeFeature],
     });
 
-    xFeature.setStyle(new ol.style.Style({
-        image: new ol.style.Icon({
-            src: 'data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="red" d="M3 3L21 21M3 21L21 3" stroke="red" stroke-width="2"/></svg>',
-            anchor: [0.5, 0.5],
-            scale: 1 
-        })
-    }));
-    vectorSource.addFeature(xFeature);
-}
+    if (coordinates.length > 1) {
+        const end = coordinates[coordinates.length - 1];
 
-pathLayer = new ol.layer.Vector({
-    source: vectorSource
-});
-map.addLayer(pathLayer);
-return map
+        const xFeature = new ol.Feature({
+            geometry: new ol.geom.Point(end),
+        });
+
+        xFeature.setStyle(new ol.style.Style({
+            image: new ol.style.Icon({
+                src: 'data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="red" d="M3 3L21 21M3 21L21 3" stroke="red" stroke-width="2"/></svg>',
+                anchor: [0.5, 0.5],
+                scale: 1
+            })
+        }));
+        vectorSource.addFeature(xFeature);
+    }
+
+    pathLayer = new ol.layer.Vector({
+        source: vectorSource
+    });
+    map.addLayer(pathLayer);
+    return map
 }
 
 
 function createMap(floor, imgurl, start, dest) {
 
-const imageExtent = [0, 0, 1000, 647]; 
+    const imageExtent = [0, 0, 1000, 647];
 
-const floorPlanLayer = new ol.layer.Image({
-    source: new ol.source.ImageStatic({
-    url: imgurl,
-    imageExtent: imageExtent,
-    }),
-});
+    const floorPlanLayer = new ol.layer.Image({
+        source: new ol.source.ImageStatic({
+            url: imgurl,
+            imageExtent: imageExtent,
+        }),
+    });
 
-map.addLayer(floorPlanLayer);
+    map.addLayer(floorPlanLayer);
 
-map.getView().fit(imageExtent, { size: map.getSize() });
+    map.getView().fit(imageExtent, { size: map.getSize() });
 
-const path = findPath(start, dest, floor['paths']);
-if (path) {
-    map = drawPath(map, path, floor['waypoints']);
-} else {
-    console.log('No path found');
-}
+    const path = findPath(start, dest, floor['paths']);
+    if (path) {
+        map = drawPath(map, path, floor['waypoints']);
+    } else {
+        console.log('No path found');
+    }
 
-map.on('click', function(evt) {
-    const coordinates = evt.coordinate;
-    console.log('Clicked at:', coordinates);
-});
+    map.on('click', function (evt) {
+        const coordinates = evt.coordinate;
+        console.log('Clicked at:', coordinates);
+    });
 
-map.on('postrender', () => {
-    console.log('Map loaded successfully');
-});
+    map.on('postrender', () => {
+        console.log('Map loaded successfully');
+    });
 
-return map;
+    return map;
 }
