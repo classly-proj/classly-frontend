@@ -92,6 +92,7 @@ function startWatchingLocation() {
 }
 
 export async function loadRoute(start, end) {
+    removeRoute()
     const resp = await loadDirections(start[0], start[1], end[0], end[1]);
 
     if (!resp.ok) {
@@ -132,6 +133,17 @@ export async function loadRoute(start, end) {
           }
         });
       }
+}
+
+export function removeRoute() {
+  if (map.getLayer('route')) {
+      map.removeLayer('route');
+      if (map.getSource('route')) {
+          map.removeSource('route');
+      }
+  } else {
+      console.log("Route not found");
+  }
 }
 
 async function loadBuildings() {
@@ -176,19 +188,7 @@ async function loadBuildings() {
             }
         });
 
-        map.on('click', 'buildings', async function (e) {
-            const endCoords = e.features[0].geometry.coordinates;
-            loadRoute(currCoords, endCoords);
-        });
-
-        map.on('mouseenter', 'buildings', function () {
-            map.getCanvas().style.cursor = 'pointer';
-        });
-
-        map.on('mouseleave', 'buildings', function () {
-            map.getCanvas().style.cursor = '';
-        });
-
+        sessionStorage.setItem("buildings", JSON.stringify(buildings));
         return buildings;
 
     } catch (error) {
@@ -201,12 +201,14 @@ export function getCurrCoords() {
 }
 
 export async function findEntrance(building) {
-  const buildings = await loadBuildings()
+  const buildings = JSON.parse(sessionStorage.getItem("buildings"))
+  console.log(building)
   return buildings[building].ground[0].coordinates;
 }
 
 
 map.on('load', async function () {
     startWatchingLocation();
+    loadBuildings();
 });
 
