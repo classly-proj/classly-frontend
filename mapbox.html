@@ -14,18 +14,33 @@
 
 <body>
     <!-- Settings -->
-    <div class="settings"></div>
-    <!-- Add class dialog -->
+    <div id="settings" class="hidden">
+      <div class="menu">
+        <span>
+          <h1>Settings</h1>
+          <button onclick="closeSettings()"><img src="./img/icons/cross.svg" alt=""></button>
+        </span>
+        <div class="settings-input-field">
+          <div class="input-wrapper">
+            <label for="settings-firstName">First Name</label>
+            <input id="settings-firstName" type="text">
+          </div>
+          <div class="input-wrapper">
+            <label for="settings-lastName">Last Name</label>
+            <input id="settings-lastName" type="text">
+          </div>
+        </div>
+        <button class="saveBtn" onclick="saveSettings()">Save</button>
+      </div>
+    </div>    <!-- Add class dialog -->
     <div id="dialog" class="hidden">
-        <div class="add-class-menu">
+        <div class="menu">
             <span>
                 <h1>Add Courses</h1>
                 <button onclick="closeDialog()"><img src="./img/icons/cross.svg" alt=""></button>
             </span>
-            <span>
                 <select id="course-select"></select>
                 <input id="course-search" type="" placeholder="search">
-            </span>
             <div>
 
             </div>
@@ -34,7 +49,7 @@
     <!-- Buttons and classes -->
     <div class="interface">
         <div class="menu-buttons">
-            <button><img src="./img/icons/gear.svg" alt=""></button>
+            <button onclick="openSettings()"><img src="./img/icons/gear.svg" alt=""></button>
             <!-- Handle add classroom -->
             <button onclick="openDialog()"><img src="./img/icons/plus.svg" alt=""></button>
         </div>

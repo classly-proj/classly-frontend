@@ -39,15 +39,16 @@ button {
     height: 100vw;
 }
 
-.add-class-menu {
+.menu {
     position: absolute;
     top: 1rem;
     left: 0;
     right: 0;
     z-index: 20;
     margin: auto;
+    max-width: 700px;
 
-
+    align-items: center;
     display: flex;
     flex-direction: column;
 
@@ -165,6 +166,30 @@ button img {
         margin: 5px;
         filter: drop-shadow(0 2px 1px var(--bg-color-main));
     }
+}
+
+#settings {
+  position: absolute;
+  z-index: 15;
+  width: 100vw;
+  height: 100vw;
+}
+
+.settings-input-field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; /* Stack vertically /
+  gap: 20px; / Space between inputs */
+  width: 100%;
+}
+.saveBtn {
+  background-color: #0056b3;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: 30px;
+  padding: 20px;
 }
 
 /* Style menu for desktop */

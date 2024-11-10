@@ -1,4 +1,4 @@
-import { getMe, removeCourses } from "./api/user.js";
+import { changeName, getMe, removeCourses } from "./api/user.js";
 import { getCourse, getCourseCRNS } from "./api/course.js";
 
 const body = document.querySelector("body");
@@ -177,10 +177,58 @@ async function updateCourseList(courses) {
     }
 }
 
+async function openSettings() {
+    await updateSettings()
+    settings.classList.remove("hidden");
+}
+
+function closeSettings() {
+    settings.classList.add("hidden");
+}
+
+async function updateSettings() {
+    try {
+        const response = await getMe();  // Call getMe and wait for the promise to resolve.
+        const data = response.data;      // Access the data property of the response.
+
+        // Check if the response is successful and data is available
+        if (response.status === 200 && data) {
+            // Set the value for the first name input
+            const firstNameInput = document.getElementById('settings-firstName');
+            if (firstNameInput) firstNameInput.value = data.first || '';
+
+            // Set the value for the last name input
+            const lastNameInput = document.getElementById('settings-lastName');
+            if (lastNameInput) lastNameInput.value = data.last || '';
+        } else {
+            console.error('Failed to retrieve user data. Status:', response.status);
+        }
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+    }
+}
+
+async function saveSettings() {
+    const firstName = document.getElementById('settings-firstName').value;
+    const lastName = document.getElementById('settings-lastName').value;
+
+    const response = await changeName(firstName, lastName);
+
+    if (response.status === 200) {
+        alert('Name changed successfully!');
+    } else {
+        alert('Failed to change name. Status code: ' + response.status);
+    }
+}
+
+
 // Assign function values
 window.onload = onPageLoad;
 window.openDialog = openDialog;
 window.closeDialog = closeDialog;
 window.search = search;
+window.openSettings = openSettings;
+window.closeSettings = closeSettings;
+window.saveSettings = saveSettings;
 window.updateClassList = updateClassList;
 window.removeCourses = removeCourses;
