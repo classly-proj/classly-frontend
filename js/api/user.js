@@ -4,7 +4,7 @@ export async function createAccount(email, firstName, lastName, password) {
     const response = await fetch(API_HOST + "/user/create", {
         ...POST_FIELDS,
         body: JSON.stringify({
-            email: email,
+            email: email.toString().toLowerCase(),
             firstName: firstName,
             lastName: lastName,
             password: password
@@ -18,7 +18,7 @@ export async function login(email, password) {
     const response = await fetch(API_HOST + "/user/login", {
         ...POST_FIELDS,
         body: JSON.stringify({
-            email: email,
+            email: email.toString().toLowerCase(),
             password: password
         })
     });
@@ -46,7 +46,7 @@ export async function getUser(email) {
     const response = await fetch(API_HOST + "/user/get", {
         ...POST_FIELDS,
         body: JSON.stringify({
-            email: email
+            email: email.toString().toLowerCase()
         })
     });
 
