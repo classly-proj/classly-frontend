@@ -87,3 +87,15 @@ export async function getMe() {
 
     return new APIResponse(response.status, response.status === 200 ? await response.json() : null);
 }
+
+export async function changeName(firstName, lastName) {
+    const response = await fetch(API_HOST + "/user/changename", {
+        ...POST_FIELDS,
+        body: JSON.stringify({
+            firstName: firstName,
+            lastName: lastName
+        })
+    });
+
+    return new APIResponse(response.status, null);
+}
