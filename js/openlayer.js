@@ -33,6 +33,9 @@ slctcourse = {
 room = "215"
 var map = null;
 
+document.getElementById('buildmode').addEventListener('click', function(){
+    window.location.replace("./mapbox.html");
+})
 
 const imageExtent = [0, 0, 1000, 647];
 map = new ol.Map({
@@ -180,6 +183,7 @@ surl = './img/PaulCollegeSecond.jpg'
 
 
 if (room[0] == "G") {
+    document.getElementById('nav').style.visibility = "hidden";
     createMap(ground, gurl, "entrance", room)
 } else if  (room[0] == "1") {
     mapped = createMap(ground, gurl, "entrance", "stairs")
@@ -188,7 +192,7 @@ if (room[0] == "G") {
         mapped.getLayers().clear();
         createMap(first, furl, "stairs", room)
     })
-} else {
+} else if (room[0] == "2"){
     num = 1
     mapped = createMap(ground, gurl, "entrance", "stairs")
     document.getElementById('nav').style.visibility = "visible";
@@ -202,6 +206,8 @@ if (room[0] == "G") {
         }
         num = num +1
     })
+} else {
+    document.getElementById("deny").style.display = "block";
 }
 
 
