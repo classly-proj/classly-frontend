@@ -168,6 +168,10 @@ button img {
     }
 }
 
+#class-menu span button.activeClass {
+    filter: sepia(100%);
+}
+
 #settings {
     position: absolute;
     z-index: 15;
@@ -246,7 +250,7 @@ button img {
 
 #search-results {
     max-height: 32vmin;
-    overflow-y: auto;  
+    overflow-y: auto;
     background-color: rgba(0, 0, 0, .15);
     border-radius: 1vmin;
     padding: 2vmin;

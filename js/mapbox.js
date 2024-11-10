@@ -7,13 +7,13 @@ const bounds = [
 
 mapboxgl.accessToken = "pk.eyJ1IjoiZHNjYXJiMjEiLCJhIjoiY2x0cnR3cWlqMGtmZzJucDU2eDR2eWpyMCJ9.nfk8bnbhwkUmEHDhKZv3zA";
 
-document.addEventListener('DOMContentLoaded', function() {
-  const buildModeButton = document.getElementById('buildmode');
-  if (buildModeButton) {
-      buildModeButton.addEventListener('click', function() {
-          window.location.href = './openlayer.html';
-      });
-  }
+document.addEventListener('DOMContentLoaded', function () {
+    const buildModeButton = document.getElementById('buildmode');
+    if (buildModeButton) {
+        buildModeButton.addEventListener('click', function () {
+            window.location.href = './openlayer.html';
+        });
+    }
 });
 
 const map = new mapboxgl.Map({
@@ -25,7 +25,7 @@ const map = new mapboxgl.Map({
 });
 
 let watchId = null;
-let currCoords = null;
+let currCoords = [-70.92560, 43.13401];
 
 function initLocationLayer(coords) {
     map.addLayer({
@@ -92,6 +92,7 @@ function startWatchingLocation() {
 }
 
 export async function loadRoute(start, end) {
+    console.log("Loading route from", start, "to", end);
     const resp = await loadDirections(start[0], start[1], end[0], end[1]);
 
     if (!resp.ok) {
@@ -115,23 +116,23 @@ export async function loadRoute(start, end) {
         map.getSource('route').setData(geojson);
     } else {
         map.addLayer({
-          id: 'route',
-          type: 'line',
-          source: {
-            type: 'geojson',
-            data: geojson
-          },
-          layout: {
-            'line-join': 'round',
-            'line-cap': 'round'
-          },
-          paint: {
-            'line-color': '#3887be',
-            'line-width': 5,
-            'line-opacity': 0.75
-          }
+            id: 'route',
+            type: 'line',
+            source: {
+                type: 'geojson',
+                data: geojson
+            },
+            layout: {
+                'line-join': 'round',
+                'line-cap': 'round'
+            },
+            paint: {
+                'line-color': '#3887be',
+                'line-width': 5,
+                'line-opacity': 0.75
+            }
         });
-      }
+    }
 }
 
 async function loadBuildings() {
@@ -161,20 +162,26 @@ async function loadBuildings() {
             features: allFeatures
         };
 
-        map.addSource('combined_buildings', {
-            type: 'geojson',
-            data: combinedData
-        });
+        window.mapboxMap = map;
 
-        map.addLayer({
-            id: 'buildings',
-            type: 'circle',
-            source: 'combined_buildings',
-            paint: {
-                'circle-radius': 8,
-                'circle-color': '#ff8c00'
-            }
-        });
+        if (!map.getSource('combined_buildings')) {
+            map.addSource('combined_buildings', {
+                type: 'geojson',
+                data: combinedData
+            });
+        }
+
+        if (!map.getLayer("buildings")) {
+            map.addLayer({
+                id: 'buildings',
+                type: 'circle',
+                source: 'combined_buildings',
+                paint: {
+                    'circle-radius': 8,
+                    'circle-color': '#ff8c00'
+                }
+            });
+        }
 
         map.on('click', 'buildings', async function (e) {
             const endCoords = e.features[0].geometry.coordinates;
@@ -190,19 +197,18 @@ async function loadBuildings() {
         });
 
         return buildings;
-
     } catch (error) {
         console.error('Error loading buildings:', error);
     }
 }
 
 export function getCurrCoords() {
-  return currCoords;
+    return currCoords;
 }
 
 export async function findEntrance(building) {
-  const buildings = await loadBuildings()
-  return buildings[building].ground[0].coordinates;
+    const buildings = await loadBuildings()
+    return buildings[building].ground[0].coordinates;
 }
 
 

@@ -54,12 +54,14 @@ async function updateClassList() {
             
             if (course.COURSE_DATA.MEETINGS[0].BUILDING === "PCBE") {
                 button.onclick = async () => {
+                    document.querySelector(".activeClass")?.classList.remove("activeClass");
+                    button.classList.add("activeClass");
+
                     building = course.COURSE_DATA.MEETINGS[0].BUILDING;
                     room = course.COURSE_DATA.MEETINGS[0].ROOM;
                     sessionStorage.setItem("building", building);
                     sessionStorage.setItem("room", room);
                     const goalCoords = await findEntrance(building);
-                    console.log(goalCoords);
                     await loadRoute(getCurrCoords(), goalCoords);
                 };
             } else {
