@@ -69,7 +69,9 @@ async function submitForm(state) {
 
     // Check return status and redirect if OK is true
     if (status.ok) {
-        window.location.replace("./mapbox.html");
+        setTimeout(() => {
+            window.location.replace("./mapbox.html");
+        }, 500);
     } else {
         password.classList.add("error");
         confirm.classList.add("error");
