@@ -47,8 +47,8 @@ main {
 }
 
 main h1 {
-    color: #ffffff;
-    font-size: 4vmin;
+    color: #FFFFFF;
+    font-size: 4.5vmin;
 }
 
 @keyframes fadeOnLoad {
