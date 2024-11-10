@@ -1,9 +1,10 @@
 import { addCourses, changeName, getMe, removeCourses } from "./api/user.js";
 import { getCourse, getCourseCRNS, getCourseQueriableFields, queryCourses } from "./api/course.js";
 import { getCurrCoords, findEntrance, loadRoute} from "./mapbox.js";
-import { initMap } from "./openlayer.js";
 
 const dialog = document.getElementById("dialog");
+var building = null;
+var room = null;
 
 async function onPageLoad() {
     const user = await getMe();
@@ -54,9 +55,10 @@ async function updateClassList() {
             button.innerText = `${course.COURSE_DATA.SYVSCHD_SUBJ_CODE}${course.COURSE_DATA.SYVSCHD_CRSE_NUMB} ${course.COURSE_DATA.SYVSCHD_CRSE_LONG_TITLE}`;
             span.appendChild(button);
             button.onclick = async() => {
-                const building = course.COURSE_DATA.MEETINGS[0].BUILDING
-                const room = course.COURSE_DATA.MEETINGS[0].ROOM
-                initMap(building, room)
+                building = course.COURSE_DATA.MEETINGS[0].BUILDING
+                room = course.COURSE_DATA.MEETINGS[0].ROOM
+                sessionStorage.setItem('building', building);
+                sessionStorage.setItem('room', room);
                 const goalCoords = await findEntrance(building)
                 console.log(goalCoords)
                 await loadRoute(getCurrCoords(), goalCoords)
@@ -211,6 +213,9 @@ async function saveSettings() {
     }
 }
 
+export function getBuildingRoom() {
+    return {building, room}
+}
 
 // Assign function values
 window.onload = onPageLoad;

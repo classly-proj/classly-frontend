@@ -7,8 +7,13 @@ const bounds = [
 
 mapboxgl.accessToken = "pk.eyJ1IjoiZHNjYXJiMjEiLCJhIjoiY2x0cnR3cWlqMGtmZzJucDU2eDR2eWpyMCJ9.nfk8bnbhwkUmEHDhKZv3zA";
 
-document.getElementById("buildmode").addEventListener("click", function () {
-    window.location.replace("./openlayer.html");
+document.addEventListener('DOMContentLoaded', function() {
+  const buildModeButton = document.getElementById('buildmode');
+  if (buildModeButton) {
+      buildModeButton.addEventListener('click', function() {
+          window.location.href = './openlayer.html';
+      });
+  }
 });
 
 const map = new mapboxgl.Map({
