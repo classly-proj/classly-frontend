@@ -1,10 +1,12 @@
 import { API_HOST, APIResponse, POST_FIELDS } from "./util.js";
 
-export async function createAccount(username, password) {
+export async function createAccount(email, firstName, lastName, password) {
     const response = await fetch(API_HOST + "/user/create", {
         ...POST_FIELDS,
         body: JSON.stringify({
-            username: username,
+            email: email,
+            firstName: firstName,
+            lastName: lastName,
             password: password
         })
     });
@@ -12,11 +14,11 @@ export async function createAccount(username, password) {
     return new APIResponse(response.status, response.status === 200 ? await response.json() : null);
 }
 
-export async function login(username, password) {
+export async function login(email, password) {
     const response = await fetch(API_HOST + "/user/login", {
         ...POST_FIELDS,
         body: JSON.stringify({
-            username: username,
+            email: email,
             password: password
         })
     });
@@ -40,11 +42,11 @@ export async function getUsers() {
     return new APIResponse(response.status, response.status === 200 ? await response.json() : null);
 }
 
-export async function getUser(username) {
+export async function getUser(email) {
     const response = await fetch(API_HOST + "/user/get", {
         ...POST_FIELDS,
         body: JSON.stringify({
-            username: username
+            email: email
         })
     });
 
@@ -84,4 +86,16 @@ export async function getMe() {
     });
 
     return new APIResponse(response.status, response.status === 200 ? await response.json() : null);
+}
+
+export async function changeName(firstName, lastName) {
+    const response = await fetch(API_HOST + "/user/changename", {
+        ...POST_FIELDS,
+        body: JSON.stringify({
+            firstName: firstName,
+            lastName: lastName
+        })
+    });
+
+    return new APIResponse(response.status, null);
 }

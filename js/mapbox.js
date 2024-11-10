@@ -5,6 +5,9 @@ const bounds = [
   [-70.894926, 43.154229],
 ];
 
+document.getElementById('buildmode').addEventListener('click', function(){
+  window.location.replace("./openlayer.html");
+})
 mapboxgl.accessToken = "pk.eyJ1IjoiZHNjYXJiMjEiLCJhIjoiY2x0cnR3cWlqMGtmZzJucDU2eDR2eWpyMCJ9.nfk8bnbhwkUmEHDhKZv3zA";
 
 

@@ -228,3 +228,21 @@ button img {
   bottom: 0; 
   width: 100%; 
 }
+
+#buildmode {
+  position: absolute;
+  bottom: 30px;
+  right: 50%;
+  z-index: 1000;
+  padding: 10px 20px;
+  background-color: #3a4ad5;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  }
+  
+  #buildmode:hover {
+  background-color: #3223b8;
+  }
