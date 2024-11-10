@@ -26,6 +26,7 @@ const map = new mapboxgl.Map({
 
 let watchId = null;
 let currCoords = [-70.92560, 43.13401];
+let endCoords = null;
 
 function initLocationLayer(coords) {
     map.addLayer({
@@ -76,6 +77,9 @@ function startWatchingLocation() {
             currCoords = [longitude, latitude];
             if (map.getLayer('location')) {
                 updateLocation(currCoords);
+                if (endCoords) {
+                    loadRoute(currCoords, endCoords)
+                }
             } else {
                 initLocationLayer(currCoords);
             }
@@ -115,6 +119,7 @@ export async function loadRoute(start, end) {
     if (map.getSource('route')) {
         map.getSource('route').setData(geojson);
     } else {
+        endCoords = end;
         map.addLayer({
             id: 'route',
             type: 'line',
@@ -132,7 +137,19 @@ export async function loadRoute(start, end) {
                 'line-opacity': 0.75
             }
         });
-    }
+      }
+}
+
+export function removeRoute() {
+    endCoords = null;
+  if (map.getLayer('route')) {
+      map.removeLayer('route');
+      if (map.getSource('route')) {
+          map.removeSource('route');
+      }
+  } else {
+      console.log("Route not found");
+  }
 }
 
 async function loadBuildings() {
@@ -183,19 +200,7 @@ async function loadBuildings() {
             });
         }
 
-        map.on('click', 'buildings', async function (e) {
-            const endCoords = e.features[0].geometry.coordinates;
-            loadRoute(currCoords, endCoords);
-        });
-
-        map.on('mouseenter', 'buildings', function () {
-            map.getCanvas().style.cursor = 'pointer';
-        });
-
-        map.on('mouseleave', 'buildings', function () {
-            map.getCanvas().style.cursor = '';
-        });
-
+        sessionStorage.setItem("buildings", JSON.stringify(buildings));
         return buildings;
     } catch (error) {
         console.error('Error loading buildings:', error);
@@ -207,12 +212,14 @@ export function getCurrCoords() {
 }
 
 export async function findEntrance(building) {
-    const buildings = await loadBuildings()
+    const buildings = JSON.parse(sessionStorage.getItem("buildings"))
+  console.log(building)
     return buildings[building].ground[0].coordinates;
 }
 
 
 map.on('load', async function () {
     startWatchingLocation();
+    loadBuildings();
 });
 
