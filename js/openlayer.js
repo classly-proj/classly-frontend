@@ -29,8 +29,8 @@ let slctcourse = {
     }
 }
 
-room = String(slctcourse["COURSE_DATA"]["MEETINGS"][0]["ROOM"])
-build = String(slctcourse["COURSE_DATA"]["MEETINGS"][0]["BUILDING"])
+//room = String(slctcourse["COURSE_DATA"]["MEETINGS"][0]["ROOM"])
+//build = String(slctcourse["COURSE_DATA"]["MEETINGS"][0]["BUILDING"])
 // room = "215"
 var map = null;
 
@@ -181,41 +181,37 @@ furl = './img/PaulCollegeFirst.jpg'
 
 surl = './img/PaulCollegeSecond.jpg'
 
-
-if (build == "PCBE") {
-
-
-    if (room[0] == "G") {
-        document.getElementById('nav').style.visibility = "hidden";
-        createMap(ground, gurl, "entrance", room)
-    } else if (room[0] == "1") {
-        mapped = createMap(ground, gurl, "entrance", "stairs")
-        document.getElementById('nav').style.visibility = "visible";
-        document.getElementById('nav').addEventListener('click', function () {
-            mapped.getLayers().clear();
-            createMap(first, furl, "stairs", room)
-        })
-    } else if (room[0] == "2") {
-        num = 1
-        mapped = createMap(ground, gurl, "entrance", "stairs")
-        document.getElementById('nav').style.visibility = "visible";
-        document.getElementById('nav').addEventListener('click', function () {
-            if (num == 1) {
+export function initMap(build, room) {
+    if (build == "PCBE") {
+        if (room[0] == "G") {
+            document.getElementById('nav').style.visibility = "hidden";
+            createMap(ground, gurl, "entrance", room)
+        } else if (room[0] == "1") {
+            mapped = createMap(ground, gurl, "entrance", "stairs")
+            document.getElementById('nav').style.visibility = "visible";
+            document.getElementById('nav').addEventListener('click', function () {
                 mapped.getLayers().clear();
                 createMap(first, furl, "stairs", room)
-            } else {
-                mapped.getLayers().clear();
-                createMap(second, surl, "stairs", room)
-            }
-            num = num + 1
-        })
+            })
+        } else if (room[0] == "2") {
+            num = 1
+            mapped = createMap(ground, gurl, "entrance", "stairs")
+            document.getElementById('nav').style.visibility = "visible";
+            document.getElementById('nav').addEventListener('click', function () {
+                if (num == 1) {
+                    mapped.getLayers().clear();
+                    createMap(first, furl, "stairs", room)
+                } else {
+                    mapped.getLayers().clear();
+                    createMap(second, surl, "stairs", room)
+                }
+                num = num + 1
+            })
+        }
+    } else {
+        document.getElementById('deny').style.display = 'block';
     }
-} else {
-    document.getElementById('deny').style.display = 'block';
 }
-
-
-
 
 
 function findPath(start, end, paths) {
