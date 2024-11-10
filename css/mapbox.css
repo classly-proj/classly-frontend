@@ -121,7 +121,7 @@ button img {
 #buildmode {
   position: absolute;
   bottom: 30px;
-  right: 50%;
+  right: 10px;
   z-index: 1000;
   padding: 10px 20px;
   background-color: #3a4ad5;
