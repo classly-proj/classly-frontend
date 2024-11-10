@@ -98,9 +98,3 @@ function fetchInput() {
 
 window.switchForm = switchForm;
 window.submitForm = submitForm;
-
-
-window.api = {
-    ...userAPI,
-    takingMyClasses
-};
