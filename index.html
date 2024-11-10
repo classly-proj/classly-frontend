@@ -39,6 +39,18 @@
         </form>
     </main>
     <script type="module" src="./js/account.js"></script>
+
+    <script type="module">
+        import { getMe } from "./js/api/user.js";
+
+        getMe().then(response => {
+            if (!response.ok) {
+                console.warn("Not Authenticated!");
+            } else {
+                console.log("Authenticated as", response.data);
+            }
+        });
+    </script>
 </body>
 
 </html>

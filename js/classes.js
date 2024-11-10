@@ -44,7 +44,6 @@ async function updateClassList() {
         }
 
         const course = response.data;
-        console.log(course);
 
         const span = document.createElement("span");
 
@@ -52,15 +51,21 @@ async function updateClassList() {
             const button = document.createElement("button");
             button.innerText = `(${course.COURSE_DATA.SYVSCHD_SEQ_NUMB}) ${course.COURSE_DATA.SYVSCHD_SUBJ_CODE}${course.COURSE_DATA.SYVSCHD_CRSE_NUMB} ${course.COURSE_DATA.SYVSCHD_CRSE_LONG_TITLE}`;
             span.appendChild(button);
-            button.onclick = async () => {
-                building = course.COURSE_DATA.MEETINGS[0].BUILDING;
-                room = course.COURSE_DATA.MEETINGS[0].ROOM;
-                sessionStorage.setItem("building", building);
-                sessionStorage.setItem("room", room);
-                const goalCoords = await findEntrance(building);
-                console.log(goalCoords);
-                await loadRoute(getCurrCoords(), goalCoords);
-            };
+            
+            if (course.COURSE_DATA.MEETINGS[0].BUILDING === "PCBE") {
+                button.onclick = async () => {
+                    building = course.COURSE_DATA.MEETINGS[0].BUILDING;
+                    room = course.COURSE_DATA.MEETINGS[0].ROOM;
+                    sessionStorage.setItem("building", building);
+                    sessionStorage.setItem("room", room);
+                    const goalCoords = await findEntrance(building);
+                    console.log(goalCoords);
+                    await loadRoute(getCurrCoords(), goalCoords);
+                };
+            } else {
+                button.classList.add("disabled");
+                button.disabled = true;
+            }
         }
         {
             const button = document.createElement("button");

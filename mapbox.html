@@ -67,6 +67,19 @@
     <div id="mapbox"></div>
     <script type="module" src="./js/mapbox.js"></script>
     <script type="module" src="./js/classes.js"></script>
+
+    <script type="module">
+        import { getMe } from "./js/api/user.js";
+
+        getMe().then(response => {
+            if (!response.ok) {
+                console.warn("Not Authenticated!");
+                window.location.href = "./index.html";
+            } else {
+                console.log("Authenticated as", response.data);
+            }
+        });
+    </script>
 </body>
 
 </html>
