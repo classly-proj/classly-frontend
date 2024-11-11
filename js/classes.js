@@ -219,7 +219,9 @@ function openPeople(people) {
 
     people.users.forEach((person) => {
         const span = document.createElement("span");
-        span.innerText = `${person.FirstName} ${person.LastName} - ${person.Email}`;
+        span.setAttribute("style", "white-space: pre")
+        span.innerText = `${person.FirstName} ${person.LastName} - `
+        span.innerHTML += `<a href="mailto:${person.Email}">${person.Email}</a>`
 
         div.appendChild(span);
     });
