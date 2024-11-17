@@ -3,7 +3,7 @@
     "short_name": "Classly",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#FFE9D2",
+    "background_color": "#0182C2",
     "theme_color": "#FFE1C4",
     "orientation": "portrait",
     "icons": [
@@ -25,13 +25,13 @@
     ],
     "screenshots": [
     {
-      "src": "./screenshots/landscape-1.png",
+      "src": "./public/screenshots/landscape-1.png",
       "sizes": "1024x768",
       "type": "image/jpg",
       "form_factor": "wide"
     },
     {
-      "src": "./screenshots/portrait-1.png",
+      "src": "./public/screenshots/portrait-1.png",
       "sizes": "768x1024",
       "type": "image/jpg",
       "form_factor": "narrow"
