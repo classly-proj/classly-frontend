@@ -1,29 +1,22 @@
+/**
+ *
+ */
+
 import { addCourses, changeName, getMe, removeCourses } from "./api/user.js";
-import { getCurrCoords, findEntrance, loadRoute, removeRoute } from "./mapbox.js";
+import { getCurrCoords, findEntrance, loadRoute, removeRoute } from "./map.js";
 import {
     getCourse,
     getCourseQueriableFields,
     queryCourses,
 } from "./api/course.js";
-import { takingMyClasses } from "./api/community.js";
 
 const dialog = document.getElementById("dialog");
-const peopleDialog = document.getElementById("people");
 var building = null;
 var room = null;
 
-async function onPageLoad() {
-    const user = await getMe();
-
-    if (!user.ok) {
-        alert("Error! " + user.getStatusName());
-        return;
-    }
-
-    search();
-    updateClassList();
-}
-
+/**
+ * Populate user classes on page load
+ */
 async function updateClassList() {
     const user = await getMe();
 
@@ -32,10 +25,12 @@ async function updateClassList() {
 
     classMenu.innerHTML = "";
 
+    // Exit if user has no classes
     if (!classes) {
         return;
     }
 
+    // Create class button and add onclick events
     for (let i = 0; i < classes.length; i++) {
         const response = await getCourse(classes[i]);
 
@@ -52,63 +47,53 @@ async function updateClassList() {
             const button = document.createElement("button");
             button.innerText = `(${course.COURSE_DATA.SYVSCHD_SEQ_NUMB}) ${course.COURSE_DATA.SYVSCHD_SUBJ_CODE}${course.COURSE_DATA.SYVSCHD_CRSE_NUMB} ${course.COURSE_DATA.SYVSCHD_CRSE_LONG_TITLE}`;
             span.appendChild(button);
-            
+            button.classList.add("class-button");
+
+            // Here we check if the class building is one we have in our data
+            // TODO: add support for other buildings
             if (course.COURSE_DATA.MEETINGS[0].BUILDING === "PCBE") {
                 button.onclick = async () => {
-                    document.querySelector(".activeClass")?.classList.remove("activeClass");
-                    button.classList.add("activeClass");
+                    if (button.classList.contains("active-class")) {
+                        button.classList.remove("active-class");
+                        removeRoute();
+                        return;
+                    }
+
+                    document
+                        .querySelector(".active-class")
+                        ?.classList.remove("active-class");
+                    button.classList.add("active-class");
 
                     building = course.COURSE_DATA.MEETINGS[0].BUILDING;
                     room = course.COURSE_DATA.MEETINGS[0].ROOM;
                     sessionStorage.setItem("building", building);
                     sessionStorage.setItem("room", room);
+
                     const goalCoords = await findEntrance(building);
                     await loadRoute(getCurrCoords(), goalCoords);
                 };
             } else {
+                // Grey out class if building isn't found
                 button.classList.add("disabled");
                 button.disabled = true;
             }
         }
-        {
-            const button = document.createElement("button");
-            button.innerHTML = `<img src="./img/icons/people.svg" alt="">`;
-            button.onclick = async () => {
-                const people = await takingMyClasses();
-                const crn = course.TERM_CRN;
 
-                // TODO: fix this shit
-                for (let i = 0; i < people.data.length; i++) {
-                    if (people.data[i].crn === crn) {
-                        await openPeople(people.data[i]);
-                        return;
-                    }
-                }
-
-                openPeople(people.data[0].users);
-            };
-            span.appendChild(button);
-        }
         {
+            // Create remove class button
             const button = document.createElement("button");
             button.innerHTML = `<img src="./img/icons/minus.svg" alt="">`;
             button.onclick = async () => {
                 if ((await removeCourses(course.TERM_CRN)).ok) {
                     updateClassList();
                 }
-                stopNav()
+                removeRoute();
             };
             span.appendChild(button);
         }
 
         classMenu.appendChild(span);
     }
-}
-
-function stopNav() {
-    removeRoute()
-    sessionStorage.removeItem("building")
-    sessionStorage.removeItem("room")
 }
 
 function openDialog() {
@@ -141,6 +126,9 @@ function updateSearchResults(results) {
     });
 }
 
+/**
+ * Handle course search system
+ */
 async function search() {
     const res = await getCourseQueriableFields();
 
@@ -212,26 +200,6 @@ function closeSettings() {
     settings.classList.add("hidden");
 }
 
-function openPeople(people) {
-    const div = document.getElementById("class-students");
-    console.log(people);
-    div.innerHTML = "";
-
-    people.users.forEach((person) => {
-        const span = document.createElement("span");
-        span.setAttribute("style", "white-space: pre")
-        span.innerText = `${person.FirstName} ${person.LastName} - `
-        span.innerHTML += `<a href="mailto:${person.Email}">${person.Email}</a>`
-
-        div.appendChild(span);
-    });
-    peopleDialog.classList.remove("hidden");
-}
-
-function closePeople() {
-    peopleDialog.classList.add("hidden");
-}
-
 async function updateSettings() {
     try {
         const response = await getMe(); // Call getMe and wait for the promise to resolve.
@@ -258,6 +226,9 @@ async function updateSettings() {
     }
 }
 
+/**
+ * Handle user setting changes
+ */
 async function saveSettings() {
     const firstName = document.getElementById("settings-firstName").value;
     const lastName = document.getElementById("settings-lastName").value;
@@ -271,11 +242,12 @@ async function saveSettings() {
     }
 }
 
-export function getBuildingRoom() {
-    return { building, room };
+function onPageLoad() {
+    search();
+    updateClassList();
 }
 
-// Assign function values
+// Register functions
 window.onload = onPageLoad;
 window.search = search;
 window.openDialog = openDialog;
@@ -283,8 +255,6 @@ window.closeDialog = closeDialog;
 window.openSettings = openSettings;
 window.closeSettings = closeSettings;
 window.saveSettings = saveSettings;
-window.openPeople = openPeople;
-window.closePeople = closePeople;
 window.updateClassList = updateClassList;
 window.removeCourses = removeCourses;
 window.removeRoute = removeRoute;

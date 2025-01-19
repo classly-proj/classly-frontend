@@ -1,5 +1,17 @@
-import { takingMyClasses } from "./api/community.js";
+/**
+ * Code for handling login/account creation through backend
+ */
+
 import * as userAPI from "./api/user.js";
+
+// Redirect to map if logged in
+document.addEventListener("DOMContentLoaded", function () {
+    userAPI.getMe().then((response) => {
+        if (response.ok) {
+            window.location = "/";
+        }
+    });
+});
 
 /**
  * Swap login form to register form and vice versa
@@ -17,11 +29,11 @@ function switchForm(state) {
     formSubmit.onclick =
         state === "login"
             ? function () {
-                submitForm("register");
-            }
+                  submitForm("register");
+              }
             : function () {
-                submitForm("login");
-            };
+                  submitForm("login");
+              };
 
     // Update button html
     switchButton.innerHTML =
@@ -66,15 +78,22 @@ async function submitForm(state) {
     const status =
         state === "login"
             ? await userAPI.login(credentials.email, credentials.password)
-            : await userAPI.createAccount(credentials.email, credentials.first, credentials.last, credentials.password);
+            : await userAPI.createAccount(
+                  credentials.email,
+                  credentials.first,
+                  credentials.last,
+                  credentials.password
+              );
 
     // Check return status and redirect if OK is true
     if (status.ok) {
         setTimeout(() => {
-            window.location.replace("./mapbox.html");
+            window.location = "/";
         }, 500);
     } else {
         password.classList.add("error");
+        window.switchForm = switchForm;
+        window.submitForm = submitForm;
         confirm.classList.add("error");
 
         // Add something on the backend that returns a specific error message when failed.
@@ -96,5 +115,6 @@ function fetchInput() {
     return { email, first, last, password };
 }
 
+// Register functions
 window.switchForm = switchForm;
 window.submitForm = submitForm;
