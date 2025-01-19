@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Login | Classly</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/svg+xml" href="../public/favicon.svg" />
+
+        <!-- IOS support-->
+        <link rel="apple-touch-icon" href="../public/logo-192x192.png" />
+        <meta name="apple-mobile-web-app-status-bar" content="#aa7700" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="Classly" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <link rel="manifest" href="../manifest.json" />
+
+        <!-- Style Imports -->
+        <link rel="stylesheet" href="../css/style.css" />
+    </head>
+    <body>
+        <section>
+            <img src="../img/branding/raw/banner.svg" />
+            <!-- Login/Account form -->
+            <form onsubmit="return false">
+                <h2 id="account-header">Login:</h2>
+                <input
+                    id="first"
+                    class="hidden"
+                    type="text"
+                    require
+                    placeholder="First Name"
+                />
+                <input
+                    id="last"
+                    class="hidden"
+                    type="text"
+                    require
+                    placeholder="Last Name"
+                />
+                <input id="email" type="text" required placeholder="Email" />
+                <input
+                    id="password"
+                    type="password"
+                    required
+                    placeholder="Password"
+                />
+                <input
+                    id="confirm"
+                    class="hidden"
+                    type="password"
+                    placeholder="Confirm Password"
+                />
+                <p id="error"></p>
+                <p id="account-switch">
+                    Don't have an account?
+                    <span onclick="switchForm('login')">Register now</span>
+                </p>
+                <button
+                    id="account-submit"
+                    type="submit"
+                    onclick="submitForm('login')"
+                >
+                    Submit
+                </button>
+            </form>
+        </section>
+
+        <!-- Script Import -->
+        <script type="module" src="../js/login.js" defer></script>
+    </body>
+</html>

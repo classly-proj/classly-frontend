@@ -1,3 +1,6 @@
+/**
+ * Handle registering serviceWorker for pwa
+ */
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", async () => {
         try {

@@ -1,55 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <title>Map | Classly</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/svg+xml" href="./public/favicon.svg" />
+        <!-- Mapbox Import -->
+        <link
+            href="https://api.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.css"
+            rel="stylesheet"
+        />
+        <script src="https://api.mapbox.com/mapbox-gl-js/v3.7.0/mapbox-gl.js"></script>
+        <!-- OpenLayer Import -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.css"
+            type="text/css"
+        />
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/ol3/4.6.5/ol.js"
+            defer
+        ></script>
 
-<head>
-    <title>Classly</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    <link rel="icon" type="image/png" href="./public/favicon.png"/>
-    <link rel="stylesheet" href="./css/login.css">
-    <link rel="manifest" href="/manifest.json">
-    <script type="module" src="./js/app.js" defer></script>
+        <!-- IOS support-->
+        <link rel="apple-touch-icon" href="./public/logo-192x192.png" />
+        <meta name="apple-mobile-web-app-status-bar" content="#aa7700" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="Classly" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <link rel="manifest" href="./manifest.json" />
 
-    <!-- IOS support-->
-    <link rel="apple-touch-icon" href="./public/logo-192x192.png">
-    <meta name="apple-mobile-web-app-status-bar" content="#aa7700">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="Classly">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <!-- Style Imports -->
+        <link rel="stylesheet" href="./css/style.css" />
+    </head>
+    <body>
+        <!-- Main Durham Map -->
+        <main>
+            <!-- Settings -->
+            <div id="settings" class="hidden">
+                <div class="menu">
+                    <span>
+                        <h1>Settings</h1>
+                        <button onclick="closeSettings()">
+                            <img src="./img/icons/cross.svg" alt="" />
+                        </button>
+                    </span>
+                    <div class="settings-input-field">
+                        <div class="input-wrapper">
+                            <label for="settings-firstName">First Name</label>
+                            <input id="settings-firstName" type="text" />
+                        </div>
+                        <div class="input-wrapper">
+                            <label for="settings-lastName">Last Name</label>
+                            <input id="settings-lastName" type="text" />
+                        </div>
+                    </div>
+                    <button class="saveBtn" onclick="saveSettings()">
+                        Save
+                    </button>
+                </div>
+            </div>
+            <!-- Main dialog -->
+            <div id="dialog" class="hidden">
+                <!-- Class dialog -->
+                <div class="menu">
+                    <span>
+                        <h1>Add Courses</h1>
+                        <button onclick="closeDialog()">
+                            <img src="./img/icons/cross.svg" alt="" />
+                        </button>
+                    </span>
+                    <span>
+                        <select id="course-select"></select>
+                        <input
+                            id="course-search"
+                            type="search"
+                            placeholder="search"
+                        />
+                    </span>
+                    <div id="search-results"></div>
+                </div>
+                <!-- Settings Dialog -->
+            </div>
+            <!-- Buttons and classes -->
+            <div class="interface">
+                <div class="menu-buttons">
+                    <button onclick="openSettings()">
+                        <img src="./img/icons/gear.svg" alt="" />
+                    </button>
+                    <!-- Handle add classroom -->
+                    <button onclick="openDialog()">
+                        <img src="./img/icons/plus.svg" alt="" />
+                    </button>
+                </div>
+                <div id="class-menu"></div>
+            </div>
+            <!-- Mapbox map -->
+            <div id="mapbox"></div>
+        </main>
 
-</head>
+        <!-- Openlayer building map -->
+        <section id="openlayer-container" class="hidden">
+            <div id="openlayer-map"></div>
+            <button id="nav">Next Floor</button>
+            <button id="map-return" onclick="toggleBuildingMap()">
+                Return to Map
+            </button>
+        </section>
 
-<body oncontextmenu="return;">
-    <main>
-        <h1>
-            Welcome to Classly!
-        </h1>
-        <!-- Login/Account form -->
-        <form onsubmit="return false">
-            <h2 id="account-header">Login:</h2>
-            <input id="first" class="hidden" type="text" require placeholder="First Name">
-            <input id="last" class="hidden" type="text" require placeholder="Last Name">
-            <input id="email" type="text" required placeholder="Email">
-            <input id="password" type="password" required placeholder="Password">
-            <input id="confirm" class="hidden" type="password" placeholder="Confirm Password">
-            <p id="error"></p>
-            <p id="account-switch">Don't have an account? <span  onclick="switchForm('login')">Register now</span></p>
-            <button id="account-submit" type="submit" onclick="submitForm('login')">Submit</button>
-        </form>
-    </main>
-    <script type="module" src="./js/account.js"></script>
-
-    <script type="module">
-        import { getMe } from "./js/api/user.js";
-
-        getMe().then(response => {
-            if (!response.ok) {
-                console.warn("Not Authenticated!");
-            } else {
-                console.log("Authenticated as", response.data);
-            }
-        });
-    </script>
-</body>
-
+        <!-- Script Import -->
+        <script type="module" src="./js/map.js" defer></script>
+        <script type="module" src="./js/classes.js" defer></script>
+        <script type="module" src="./js/openlayer.js" defer></script>
+    </body>
 </html>
