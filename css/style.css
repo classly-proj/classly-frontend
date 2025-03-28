@@ -1,7 +1,7 @@
 /* Styling for login/account creation page */
 :root {
-    --bg-color-main: #f8f8fc;
-    --bg-color-alt: #f1f1f1;
+    --bg-color-main: #f1f1f1;
+    --bg-color-alt: #f8f8fc;
     --white: #ffffff;
     --black: #111111;
 
@@ -25,6 +25,7 @@ body {
     padding: 0;
     overflow: hidden;
     color: var(--dark-blue);
+    background-color: var(--bg-color-alt);
 
     /* Font styling */
     font-family: Arial, sans-serif;
